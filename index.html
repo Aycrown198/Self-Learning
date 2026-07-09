@@ -152,7 +152,8 @@ h1{font-size:22px;font-weight:700;margin-bottom:4px}
 .phasesec{font-size:11px;font-weight:700;color:var(--tx2);border-bottom:.5px solid var(--bd);padding-bottom:6px;margin-bottom:8px;margin-top:18px}
 .phasesec:first-child{margin-top:0}
 </style>
- <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+ <link rel="preconnect" href="https://cdn.jsdelivr.net">
+ <link rel="preconnect" href="https://rjfoaphfouufwdvfrtjk.supabase.co">
 </head>
 <body>
 <div class="wrap">
@@ -279,8 +280,8 @@ h1{font-size:22px;font-weight:700;margin-bottom:4px}
   <div class="cgrid" id="careerGrid"></div>
 </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
- <script>
 // ══ SUPABASE SETUP ════════════════════════════════════════════════
 const SUPABASE_URL  = 'https://rjfoaphfouufwdvfrtjk.supabase.co';   // ← paste yours here
 const SUPABASE_ANON = 'sb_publishable_v_wbr7f9iSSDdnPUHIJfXQ_2toXKz57';      // ← paste yours here
@@ -1060,16 +1061,6 @@ buildItems();
 renderAll();
 renderPlans();
 renderCareers();
-// ===== STATE (persisted) =====
-let checkState = JSON.parse(localStorage.getItem('aiml_ck') || '{}');
-let projState  = JSON.parse(localStorage.getItem('aiml_pj') || '{}');
-let ckFilter   = 'all';
-let projFilter = 'all';
-let allItems   = [];
-
-function save(){ localStorage.setItem('aiml_ck',JSON.stringify(checkState)); localStorage.setItem('aiml_pj',JSON.stringify(projState)); }
-
-
 </script>
 </body>
 </html>
