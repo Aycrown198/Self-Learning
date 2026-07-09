@@ -152,9 +152,64 @@ h1{font-size:22px;font-weight:700;margin-bottom:4px}
 .phasesec{font-size:11px;font-weight:700;color:var(--tx2);border-bottom:.5px solid var(--bd);padding-bottom:6px;margin-bottom:8px;margin-top:18px}
 .phasesec:first-child{margin-top:0}
 </style>
+ <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 <div class="wrap">
+ <!-- Auth bar -->
+<div id="authBar" style="display:flex;align-items:center;gap:10px;
+     margin-bottom:1rem;padding:10px 14px;background:var(--bg);
+     border:.5px solid var(--bd);border-radius:var(--rl)">
+  <div id="authStatus" style="flex:1;font-size:13px;color:var(--tx2)">
+    Loading...
+  </div>
+  <div id="authBtns"></div>
+</div>
+
+<!-- Login modal -->
+<div id="loginModal" style="display:none;position:fixed;inset:0;
+     background:rgba(0,0,0,0.5);z-index:999;
+     align-items:center;justify-content:center">
+  <div style="background:var(--bg);border-radius:16px;padding:28px;
+              width:320px;max-width:90vw">
+    <h2 style="font-size:17px;font-weight:700;margin-bottom:4px">
+      Sign in to sync progress
+    </h2>
+    <p style="font-size:13px;color:var(--tx2);margin-bottom:20px">
+      Progress saves to your account across all devices.
+    </p>
+    <input id="authEmail" type="email" placeholder="Email address"
+      style="width:100%;padding:9px 12px;border-radius:8px;
+             border:.5px solid var(--bd2);background:var(--bg2);
+             color:var(--tx);font-size:14px;margin-bottom:8px">
+    <input id="authPass" type="password" placeholder="Password"
+      style="width:100%;padding:9px 12px;border-radius:8px;
+             border:.5px solid var(--bd2);background:var(--bg2);
+             color:var(--tx);font-size:14px;margin-bottom:14px">
+    <div style="display:flex;gap:8px">
+      <button onclick="signIn()"
+        style="flex:1;padding:9px;border-radius:8px;border:none;
+               background:var(--tx);color:var(--bg);
+               font-size:13px;font-weight:600;cursor:pointer">
+        Sign In
+      </button>
+      <button onclick="signUp()"
+        style="flex:1;padding:9px;border-radius:8px;
+               border:.5px solid var(--bd2);background:transparent;
+               color:var(--tx);font-size:13px;font-weight:600;cursor:pointer">
+        Sign Up
+      </button>
+    </div>
+    <p id="authError" style="color:#cc3333;font-size:12px;
+       margin-top:10px;display:none"></p>
+    <button onclick="closeModal()"
+      style="width:100%;margin-top:12px;padding:7px;border-radius:8px;
+             border:.5px solid var(--bd);background:transparent;
+             color:var(--tx2);font-size:13px;cursor:pointer">
+      Cancel (use local storage only)
+    </button>
+  </div>
+</div>
 <h1>AI/ML Engineering Self-Study Curriculum</h1>
 <p class="sub">10 phases · 200+ topics · mastery checklists · 35 Project Blueprints + Phase→Project Map · Progress auto-saved in browser</p>
 <div class="tabs" id="mainTabs">
@@ -225,6 +280,114 @@ h1{font-size:22px;font-weight:700;margin-bottom:4px}
 </div>
 </div>
 <script>
+ <script>
+// ══ SUPABASE SETUP ════════════════════════════════════════════════
+const SUPABASE_URL  = 'https://rjfoaphfouufwdvfrtjk.supabase.co';   // ← paste yours here
+const SUPABASE_ANON = 'sb_publishable_v_wbr7f9iSSDdnPUHIJfXQ_2toXKz57';      // ← paste yours here
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+let currentUser = null;
+
+// ══ AUTH FUNCTIONS ════════════════════════════════════════════════
+function showModal(){ document.getElementById('loginModal').style.display='flex'; }
+function closeModal(){ document.getElementById('loginModal').style.display='none'; }
+
+async function signIn(){
+  const email = document.getElementById('authEmail').value;
+  const pass  = document.getElementById('authPass').value;
+  const {error} = await sb.auth.signInWithPassword({email, password: pass});
+  if(error){ showError(error.message); } else { closeModal(); }
+}
+
+async function signUp(){
+  const email = document.getElementById('authEmail').value;
+  const pass  = document.getElementById('authPass').value;
+  const {error} = await sb.auth.signUp({email, password: pass});
+  if(error){ showError(error.message); }
+  else { showError('Check your email to confirm your account!'); }
+}
+
+async function signOut(){
+  await sb.auth.signOut();
+  currentUser = null;
+  updateAuthBar(null);
+}
+
+function showError(msg){
+  const el = document.getElementById('authError');
+  el.textContent = msg; el.style.display = 'block';
+}
+
+function updateAuthBar(user){
+  const status = document.getElementById('authStatus');
+  const btns   = document.getElementById('authBtns');
+  if(user){
+    status.textContent = `✓ Syncing as ${user.email}`;
+    btns.innerHTML = `<button onclick="signOut()"
+      style="padding:6px 14px;border-radius:8px;border:.5px solid var(--bd2);
+             background:transparent;color:var(--tx2);font-size:12px;cursor:pointer">
+      Sign out
+    </button>`;
+  } else {
+    status.textContent = 'Progress not syncing — sign in to save across devices';
+    btns.innerHTML = `<button onclick="showModal()"
+      style="padding:6px 14px;border-radius:8px;border:none;
+             background:var(--tx);color:var(--bg);font-size:12px;
+             font-weight:600;cursor:pointer">
+      Sign in / Sign up
+    </button>`;
+  }
+}
+
+// ══ PROGRESS: LOAD ════════════════════════════════════════════════
+async function loadProgress(){
+  if(!currentUser){
+    // Fall back to localStorage if not logged in
+    checkState = JSON.parse(localStorage.getItem('aiml_ck') || '{}');
+    projState  = JSON.parse(localStorage.getItem('aiml_pj') || '{}');
+    return;
+  }
+  const {data, error} = await sb
+    .from('progress')
+    .select('check_state, proj_state')
+    .eq('user_id', currentUser.id)
+    .maybeSingle();
+
+  if(data){
+    checkState = data.check_state || {};
+    projState  = data.proj_state  || {};
+  }
+}
+
+// ══ PROGRESS: SAVE ════════════════════════════════════════════════
+let saveTimer = null;
+async function save(){
+  // Always save to localStorage as backup
+  localStorage.setItem('aiml_ck', JSON.stringify(checkState));
+  localStorage.setItem('aiml_pj', JSON.stringify(projState));
+
+  if(!currentUser) return;
+
+  // Debounce: wait 800ms after last change before saving to server
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(async () => {
+    await sb.from('progress').upsert({
+      user_id:     currentUser.id,
+      check_state: checkState,
+      proj_state:  projState,
+      updated_at:  new Date().toISOString()
+    }, { onConflict: 'user_id' });
+  }, 800);
+}
+
+// ══ AUTH STATE LISTENER ═══════════════════════════════════════════
+sb.auth.onAuthStateChange(async (event, session) => {
+  currentUser = session?.user ?? null;
+  updateAuthBar(currentUser);
+  await loadProgress();
+  buildItems();
+  renderAll();
+});
 
 const PHASES=[
 {id:0,name:"Phase 0 — Foundations",color:"#534AB7",bg:"#EEEDFE",fg:"#26215C",hours:"80–120 hrs",months:"6–8 wks",
@@ -596,14 +759,12 @@ const CAREERS = [
   {title:"AI Research Engineer",salary:"$170–280k",phases:"P0–P9 (all)",skills:["Paper reading and reproduction","PyTorch from-scratch implementations","Distributed training (FSDP, DeepSpeed)","Experimental design, ablation studies","Open-source contribution"]}
 ];
 
-// ===== STATE (persisted) =====
-let checkState = JSON.parse(localStorage.getItem('aiml_ck') || '{}');
-let projState  = JSON.parse(localStorage.getItem('aiml_pj') || '{}');
+
+let checkState = {};
+let projState  = {};
 let ckFilter   = 'all';
 let projFilter = 'all';
 let allItems   = [];
-
-function save(){ localStorage.setItem('aiml_ck',JSON.stringify(checkState)); localStorage.setItem('aiml_pj',JSON.stringify(projState)); }
 
 // ===== BUILD allItems =====
 function buildItems(){
@@ -899,6 +1060,16 @@ buildItems();
 renderAll();
 renderPlans();
 renderCareers();
+// ===== STATE (persisted) =====
+let checkState = JSON.parse(localStorage.getItem('aiml_ck') || '{}');
+let projState  = JSON.parse(localStorage.getItem('aiml_pj') || '{}');
+let ckFilter   = 'all';
+let projFilter = 'all';
+let allItems   = [];
+
+function save(){ localStorage.setItem('aiml_ck',JSON.stringify(checkState)); localStorage.setItem('aiml_pj',JSON.stringify(projState)); }
+
+
 </script>
 </body>
 </html>
