@@ -248,7 +248,7 @@ h1{font-size:22px;font-weight:700;margin-bottom:4px}
   <p class="sec-title">Project Blueprints</p>
   <p class="sec-sub">Step-by-step guides for all 21 projects — data, architecture, implementation, evaluation, portfolio tips. 🟢 = you have the prerequisite topics checked.</p>
   <div class="chips" id="projChips">
-    <button class="chip active" onclick="setPF('all',this)">All (35)</button>
+    <button class="chip active" onclick="setPF('all',this)">All (21)</button>
     <button class="chip" onclick="setPF('beginner',this)">Beginner</button>
     <button class="chip" onclick="setPF('intermediate',this)">Intermediate</button>
     <button class="chip" onclick="setPF('advanced',this)">Advanced</button>
@@ -1521,7 +1521,12 @@ function renderMap(){
 // ===== RENDER STUDY PLANS =====
 function renderPlans(){
   Object.entries(PLANS).forEach(([key,plan])=>{
-    const el=document.getElementById('plan-'+key);
+    // AFTER — safe
+const el = document.getElementById('plan-' + key);
+if (!el) {
+    console.warn('Missing plan container for key:', key);
+    return;
+}
     const statsHTML=`<div class="planstats">
       <div class="planstat"><div class="psv">${plan.dur}</div><div class="psl">duration</div></div>
       <div class="planstat"><div class="psv">${plan.wk}</div><div class="psl">per week</div></div>
