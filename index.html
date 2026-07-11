@@ -211,8 +211,8 @@ h1{font-size:22px;font-weight:700;margin-bottom:4px}
     </button>
   </div>
 </div>
-<h1>AI and Robotics Curriculum</h1>
-<p class="sub">16 phases · 420+ from-scratch topics · mastery checklists · 24 Project Blueprints + Phase→Project Map · Progress auto-saved in browser</p>
+<h1>AI and Robotics Self-Learning Curriculum</h1>
+<p class="sub">16 phases · 440+ from-scratch topics · mastery checklists · 24 Project Blueprints + Phase→Project Map · Progress auto-saved in browser</p>
 <div class="tabs" id="mainTabs">
   <button class="tab active" onclick="switchTab('roadmap')">📚 Roadmap</button>
   <button class="tab" onclick="switchTab('checklist')">✅ Mastery</button>
@@ -248,7 +248,7 @@ h1{font-size:22px;font-weight:700;margin-bottom:4px}
   <p class="sec-title">Project Blueprints</p>
   <p class="sec-sub">Step-by-step guides for all 24 projects — data, architecture, implementation, evaluation, portfolio tips. 🟢 = you have the prerequisite topics checked.</p>
   <div class="chips" id="projChips">
-    <button class="chip active" onclick="setPF('all',this)">All (24)</button>
+    <button class="chip active" onclick="setPF('all',this)">All (35)</button>
     <button class="chip" onclick="setPF('beginner',this)">Beginner</button>
     <button class="chip" onclick="setPF('intermediate',this)">Intermediate</button>
     <button class="chip" onclick="setPF('advanced',this)">Advanced</button>
@@ -1120,10 +1120,51 @@ const PHASES=[
      {
       "label": "STM32 register-level programming (introductory)",
       "tag": "hard"
+     }
+    ]
+   },
+   {
+    "section": "RTOS — FreeRTOS Deep Dive",
+    "items": [
+     {
+      "label": "Why real-time systems need an RTOS instead of a simple loop (deadline guarantees)",
+      "tag": "core"
      },
      {
-      "label": "RTOS concepts: tasks, scheduling, semaphores, queues (FreeRTOS)",
+      "label": "FreeRTOS task creation, task priorities, and the idle task",
+      "tag": "core"
+     },
+     {
+      "label": "Preemptive vs cooperative scheduling",
+      "tag": "core"
+     },
+     {
+      "label": "Rate-monotonic scheduling theory and schedulability analysis",
       "tag": "hard"
+     },
+     {
+      "label": "Interrupt Service Routines and their interaction with RTOS tasks (deferred interrupt handling)",
+      "tag": "hard"
+     },
+     {
+      "label": "Task synchronization: binary/counting semaphores, mutexes, queues, event groups",
+      "tag": "core"
+     },
+     {
+      "label": "Priority inversion and the priority inheritance protocol",
+      "tag": "hard"
+     },
+     {
+      "label": "Stack sizing per task and memory allocation (static vs dynamic)",
+      "tag": "hard"
+     },
+     {
+      "label": "Worst-case execution time (WCET) thinking and why it matters for real-time guarantees",
+      "tag": "hard"
+     },
+     {
+      "label": "Debugging RTOS systems: stack overflow detection, task state inspection",
+      "tag": "tool"
      }
     ]
    },
@@ -1733,6 +1774,43 @@ const PHASES=[
      {
       "label": "URDF: describing a robot's links and joints for simulation/visualisation",
       "tag": "hard"
+     }
+    ]
+   },
+   {
+    "section": "Robotics Software Engineering",
+    "items": [
+     {
+      "label": "ROS2 package architecture: package.xml, CMakeLists.txt/setup.py, and the colcon build system",
+      "tag": "core"
+     },
+     {
+      "label": "Workspace structure and multi-package dependency management",
+      "tag": "core"
+     },
+     {
+      "label": "ROS2 logging: rclpy/rclcpp log levels and viewing logs in real time",
+      "tag": "core"
+     },
+     {
+      "label": "rosbag2: recording and replaying sensor/topic data for debugging and offline testing",
+      "tag": "core"
+     },
+     {
+      "label": "Writing pytest-based unit tests for ROS2 nodes (applying Phase 2 testing skills)",
+      "tag": "hard"
+     },
+     {
+      "label": "Containerising a ROS2 package with Docker for reproducible deployment (applying Phase 10 skills)",
+      "tag": "hard"
+     },
+     {
+      "label": "Setting up GitHub Actions CI for a ROS2 package (build + test on every push)",
+      "tag": "hard"
+     },
+     {
+      "label": "Documenting a ROS2 package: README, launch file usage, and topic/service interface docs",
+      "tag": "core"
      }
     ]
    },
@@ -5943,7 +6021,7 @@ function renderMap(){
 // ===== RENDER STUDY PLANS =====
 function renderPlans(){
   Object.entries(PLANS).forEach(([key,plan])=>{
-  const el=document.getElementById('plan-'+key);
+    const el=document.getElementById('plan-'+key);
   if (!el) {
   console.warn('Missing plan container for key:', key);
   return;
