@@ -338,237 +338,6 @@ function updateAuthBar(user){
 async function loadProgress(){
   if(!currentUser){
     // Fall back to localStorage if not logged in
-    checkSt.portoitem::before{content:"★";color:#854F0B;font-size:12px;flex-shrink:0;margin-top:2px}
-/* MAP */
-.mapgrid{display:flex;flex-direction:column;gap:10px}
-.mapcard{background:var(--bg);border:.5px solid var(--bd);border-radius:var(--rl);padding:14px 16px}
-.mapph{display:flex;align-items:center;gap:10px;margin-bottom:10px}
-.mapbadge{width:30px;height:30px;border-radius:50%;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.mapphname{font-size:14px;font-weight:700}
-.mapprops{display:flex;flex-direction:column;gap:5px}
-.maprow{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:var(--r);background:var(--bg2);border:.5px solid var(--bd)}
-.maplvl{font-size:10px;padding:2px 7px;border-radius:10px;font-weight:700;flex-shrink:0}
-.mapname{font-size:13px;font-weight:600;flex:1}.maprole{font-size:11px;color:var(--tx2)}
-/* STUDY PLANS */
-.plansel{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.2rem}
-.planb{padding:6px 14px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;border:.5px solid var(--bd2);background:transparent;color:var(--tx2);transition:all .15s}
-.planb:hover{background:var(--bg2)}.planb.active{background:var(--tx);color:var(--bg);border-color:transparent}
-.planc{display:none}.planc.active{display:block}
-.planstats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:1.2rem}
-.planstat{background:var(--bg);border-radius:var(--r);padding:12px;text-align:center}
-.psv{font-size:20px;font-weight:700}.psl{font-size:11px;color:var(--tx2);margin-top:2px}
-.tl{display:flex;flex-direction:column}
-.tlrow{display:flex;gap:12px}
-.tll{display:flex;flex-direction:column;align-items:center;width:26px;flex-shrink:0}
-.tldot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:4px}
-.tlline{width:1.5px;flex:1;background:var(--bd2);min-height:14px}
-.tlrow:last-child .tlline{display:none}
-.tlc{padding-bottom:18px;flex:1}
-.tlt{font-size:14px;font-weight:700}.tlm{font-size:12px;color:var(--tx2);margin-top:2px}
-.tls{font-size:12px;color:var(--tx3);margin-top:4px;line-height:1.55}
-.tlprojs{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
-.tlptag{font-size:11px;padding:2px 8px;border-radius:10px;background:var(--bg2);color:var(--tx2);border:.5px solid var(--bd)}
-/* CAREERS */
-.cgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-@media(max-width:540px){.cgrid{grid-template-columns:1fr}}
-.ccard{background:var(--bg);border:.5px solid var(--bd);border-radius:var(--rl);padding:14px 16px}
-.ctitle{font-size:15px;font-weight:700;margin-bottom:3px}.csal{font-size:12px;color:var(--tx2);margin-bottom:10px}
-.cskill{font-size:12px;padding:2px 0;display:flex;gap:6px}.cskill::before{content:"•";color:var(--tx3)}
-.phasesec{font-size:11px;font-weight:700;color:var(--tx2);border-bottom:.5px solid var(--bd);padding-bottom:6px;margin-bottom:8px;margin-top:18px}
-.phasesec:first-child{margin-top:0}
-</style>
- <link rel="preconnect" href="https://cdn.jsdelivr.net">
- <link rel="preconnect" href="https://rjfoaphfouufwdvfrtjk.supabase.co">
-</head>
-<body>
-<div class="wrap">
- <!-- Auth bar -->
-<div id="authBar" style="display:flex;align-items:center;gap:10px;
-     margin-bottom:1rem;padding:10px 14px;background:var(--bg);
-     border:.5px solid var(--bd);border-radius:var(--rl)">
-  <div id="authStatus" style="flex:1;font-size:13px;color:var(--tx2)">
-    Loading...
-  </div>
-  <div id="authBtns"></div>
-</div>
-
-<!-- Login modal -->
-<div id="loginModal" style="display:none;position:fixed;inset:0;
-     background:rgba(0,0,0,0.5);z-index:999;
-     align-items:center;justify-content:center">
-  <div style="background:var(--bg);border-radius:16px;padding:28px;
-              width:320px;max-width:90vw">
-    <h2 style="font-size:17px;font-weight:700;margin-bottom:4px">
-      Sign in to sync progress
-    </h2>
-    <p style="font-size:13px;color:var(--tx2);margin-bottom:20px">
-      Progress saves to your account across all devices.
-    </p>
-    <input id="authEmail" type="email" placeholder="Email address"
-      style="width:100%;padding:9px 12px;border-radius:8px;
-             border:.5px solid var(--bd2);background:var(--bg2);
-             color:var(--tx);font-size:14px;margin-bottom:8px">
-    <input id="authPass" type="password" placeholder="Password"
-      style="width:100%;padding:9px 12px;border-radius:8px;
-             border:.5px solid var(--bd2);background:var(--bg2);
-             color:var(--tx);font-size:14px;margin-bottom:14px">
-    <div style="display:flex;gap:8px">
-      <button onclick="signIn()"
-        style="flex:1;padding:9px;border-radius:8px;border:none;
-               background:var(--tx);color:var(--bg);
-               font-size:13px;font-weight:600;cursor:pointer">
-        Sign In
-      </button>
-      <button onclick="signUp()"
-        style="flex:1;padding:9px;border-radius:8px;
-               border:.5px solid var(--bd2);background:transparent;
-               color:var(--tx);font-size:13px;font-weight:600;cursor:pointer">
-        Sign Up
-      </button>
-    </div>
-    <p id="authError" style="color:#cc3333;font-size:12px;
-       margin-top:10px;display:none"></p>
-    <button onclick="closeModal()"
-      style="width:100%;margin-top:12px;padding:7px;border-radius:8px;
-             border:.5px solid var(--bd);background:transparent;
-             color:var(--tx2);font-size:13px;cursor:pointer">
-      Cancel (use local storage only)
-    </button>
-  </div>
-</div>
-<h1>AI and Robotics Self-Learning Curriculum</h1>
-<p class="sub">16 phases · 440+ from-scratch topics · mastery checklists · 24 Project Blueprints + Phase→Project Map · Progress auto-saved in browser</p>
-<div class="tabs" id="mainTabs">
-  <button class="tab active" onclick="switchTab('roadmap')">📚 Roadmap</button>
-  <button class="tab" onclick="switchTab('checklist')">✅ Mastery</button>
-  <button class="tab" onclick="switchTab('projects')">🔨 Blueprints</button>
-  <button class="tab" onclick="switchTab('map')">🗺 Phase→Project</button>
-  <button class="tab" onclick="switchTab('studyplan')">📅 Study Plans</button>
-  <button class="tab" onclick="switchTab('careers')">💼 Careers</button>
-</div>
-<div id="tab-roadmap">
-  <p class="sec-title">Curriculum Roadmap</p>
-  <p class="sec-sub">16 phases · click any phase to expand topics, resources, and capstone project.</p>
-  <div class="sumbar">
-    <div><div class="sv" id="rd-done">0</div><div class="sl">mastered</div></div>
-    <div class="sp"><div class="sf" id="rd-bar" style="width:0%"></div></div>
-    <div style="text-align:right"><div class="sv" id="rd-total">0</div><div class="sl">total topics</div></div>
-  </div>
-  <div class="pg" id="phaseGrid"></div>
-</div>
-<div id="tab-checklist" style="display:none">
-  <p class="sec-title">Mastery Checklist</p>
-  <p class="sec-sub">All topics in one flat list. Filter and check off as you master each one.</p>
-  <div class="chips">
-    <button class="chip active" onclick="setCkF('all',this)">All</button>
-    <button class="chip" onclick="setCkF('undone',this)">Remaining</button>
-    <button class="chip" onclick="setCkF('done',this)">Mastered</button>
-    <button class="chip" onclick="setCkF('core',this)">Core</button>
-    <button class="chip" onclick="setCkF('hard',this)">Advanced</button>
-    <button class="chip" onclick="setCkF('tool',this)">Tools</button>
-  </div>
-  <div id="masterCk"></div>
-</div>
-<div id="tab-projects" style="display:none">
-  <p class="sec-title">Project Blueprints</p>
-  <p class="sec-sub">Step-by-step guides for all 24 projects — data, architecture, implementation, evaluation, portfolio tips. 🟢 = you have the prerequisite topics checked.</p>
-  <div class="chips" id="projChips">
-    <button class="chip active" onclick="setPF('all',this)">All (24)</button>
-    <button class="chip" onclick="setPF('beginner',this)">Beginner</button>
-    <button class="chip" onclick="setPF('intermediate',this)">Intermediate</button>
-    <button class="chip" onclick="setPF('advanced',this)">Advanced</button>
-    <button class="chip" onclick="setPF('flagship',this)">Flagship</button>
-    <button class="chip" onclick="setPF('ready',this)">🟢 Ready now</button>
-  </div>
-  <div class="projgrid" id="projGrid"></div>
-</div>
-<div id="tab-map" style="display:none">
-  <p class="sec-title">Phase → Project Map</p>
-  <p class="sec-sub">Which projects become available after completing each phase, and exactly what skills that phase contributes to each project.</p>
-  <div class="mapgrid" id="mapGrid"></div>
-</div>
-<div id="tab-studyplan" style="display:none">
-  <p class="sec-title">Study Plans</p>
-  <p class="sec-sub">Three pacing options — same curriculum, projects embedded into each phase timeline.</p>
-  <div class="plansel">
-    <button class="planb active" onclick="setPlan('12mo',this)">12-month (15 hrs/wk)</button>
-    <button class="planb" onclick="setPlan('24mo',this)">24-month (10 hrs/wk)</button>
-    <button class="planb" onclick="setPlan('accel',this)">Accelerated (25 hrs/wk)</button>
-  </div>
-  <div id="plan-12mo" class="planc active"></div>
-  <div id="plan-24mo" class="planc"></div>
-  <div id="plan-accel" class="planc"></div>
-</div>
-<div id="tab-careers" style="display:none">
-  <p class="sec-title">Career Roadmaps</p>
-  <p class="sec-sub">Seven specialisation tracks built from this curriculum.</p>
-  <div class="cgrid" id="careerGrid"></div>
-</div>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-// ══ SUPABASE SETUP ════════════════════════════════════════════════
-const SUPABASE_URL  = 'https://rjfoaphfouufwdvfrtjk.supabase.co';   // ← paste yours here
-const SUPABASE_ANON = 'sb_publishable_v_wbr7f9iSSDdnPUHIJfXQ_2toXKz57';      // ← paste yours here
-const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
-
-let currentUser = null;
-
-// ══ AUTH FUNCTIONS ════════════════════════════════════════════════
-function showModal(){ document.getElementById('loginModal').style.display='flex'; }
-function closeModal(){ document.getElementById('loginModal').style.display='none'; }
-
-async function signIn(){
-  const email = document.getElementById('authEmail').value;
-  const pass  = document.getElementById('authPass').value;
-  const {error} = await sb.auth.signInWithPassword({email, password: pass});
-  if(error){ showError(error.message); } else { closeModal(); }
-}
-
-async function signUp(){
-  const email = document.getElementById('authEmail').value;
-  const pass  = document.getElementById('authPass').value;
-  const {error} = await sb.auth.signUp({email, password: pass});
-  if(error){ showError(error.message); }
-  else { showError('Check your email to confirm your account!'); }
-}
-
-async function signOut(){
-  await sb.auth.signOut();
-  currentUser = null;
-  updateAuthBar(null);
-}
-
-function showError(msg){
-  const el = document.getElementById('authError');
-  el.textContent = msg; el.style.display = 'block';
-}
-
-function updateAuthBar(user){
-  const status = document.getElementById('authStatus');
-  const btns   = document.getElementById('authBtns');
-  if(user){
-    status.textContent = `✓ Syncing as ${user.email}`;
-    btns.innerHTML = `<button onclick="signOut()"
-      style="padding:6px 14px;border-radius:8px;border:.5px solid var(--bd2);
-             background:transparent;color:var(--tx2);font-size:12px;cursor:pointer">
-      Sign out
-    </button>`;
-  } else {
-    status.textContent = 'Progress not syncing — sign in to save across devices';
-    btns.innerHTML = `<button onclick="showModal()"
-      style="padding:6px 14px;border-radius:8px;border:none;
-             background:var(--tx);color:var(--bg);font-size:12px;
-             font-weight:600;cursor:pointer">
-      Sign in / Sign up
-    </button>`;
-  }
-}
-
-// ══ PROGRESS: LOAD ════════════════════════════════════════════════
-async function loadProgress(){
-  if(!currentUser){
-    // Fall back to localStorage if not logged in
     checkState = JSON.parse(localStorage.getItem('aiml_ck') || '{}');
     projState  = JSON.parse(localStorage.getItem('aiml_pj') || '{}');
     return;
@@ -1960,7 +1729,11 @@ const PHASES=[
       "tag": "hard"
      },
      {
-      "label": "Extended Kalman Filter for nonlinear systems (conceptual + simple example)",
+      "label": "Extended Kalman Filter (EKF): linearisation via Jacobians, full hands-on implementation for a nonlinear system (not just conceptual)",
+      "tag": "hard"
+     },
+     {
+      "label": "Unscented Kalman Filter (UKF): sigma-point transform and why it avoids EKF's linearisation error — hands-on implementation and comparison against EKF on the same system",
       "tag": "hard"
      },
      {
@@ -2839,6 +2612,59 @@ const PHASES=[
       "tag": "hard"
      }
     ]
+   },
+   {
+    "section": "Mini-Module: Full-Stack Robot Deployment (consolidates Phases 1, 2, 6, 10)",
+    "items": [
+     {
+      "label": "Linux system administration on the deployed device itself (not just your dev machine)",
+      "tag": "core"
+     },
+     {
+      "label": "Bash scripting for deployment automation: startup scripts, environment setup, health checks",
+      "tag": "core"
+     },
+     {
+      "label": "SSH-based remote deployment workflow: key-based auth, deploying code without a monitor/keyboard attached to the robot",
+      "tag": "core"
+     },
+     {
+      "label": "Running containerised ROS2 nodes with Docker directly on the robot's onboard computer",
+      "tag": "core"
+     },
+     {
+      "label": "ROS2 deployment strategies: launch files configured for production, auto-start on boot (systemd + ROS2)",
+      "tag": "hard"
+     },
+     {
+      "label": "MQTT for robot-to-base-station telemetry when ROS2 networking isn't appropriate (e.g. over cellular/long-range links)",
+      "tag": "core"
+     },
+     {
+      "label": "Networking configuration for field robots: static IP fallback, WiFi hotspot mode, handling connectivity loss gracefully",
+      "tag": "hard"
+     },
+     {
+      "label": "Unit testing the deployed software stack before it ever reaches the robot",
+      "tag": "core"
+     },
+     {
+      "label": "Integration testing: full system test on real hardware, not just mocked components",
+      "tag": "hard"
+     },
+     {
+      "label": "Logging strategy for a deployed, unattended robot: what to log, log rotation, retrieving logs remotely",
+      "tag": "core"
+     },
+     {
+      "label": "Deployment documentation: a runbook someone else could follow to redeploy or recover the robot without you present",
+      "tag": "core"
+     },
+     {
+      "label": "GitHub Actions for continuous deployment: automatically building, testing, and pushing updates to the robot on merge",
+      "tag": "hard"
+     }
+    ]
    }
   ],
   "resources": [
@@ -2852,7 +2678,7 @@ const PHASES=[
     ]
    }
   ],
-  "capstone": "Take a trained vision model and manually quantise it from FP32 to INT8 (documenting the accuracy/latency tradeoff at each step — FP32 → dynamic INT8 → static INT8 with calibration), deploy it for real-time inference on a Jetson Nano or Raspberry Pi with WiFi fully disabled, and separately deploy a much smaller TFLite Micro model on an ESP32-CAM, benchmarking and comparing both deployment tiers explicitly."
+  "capstone": "Take a trained vision model and manually quantise it from FP32 to INT8 (documenting the accuracy/latency tradeoff at each step — FP32 → dynamic INT8 → static INT8 with calibration), deploy it for real-time inference on a Jetson Nano or Raspberry Pi with WiFi fully disabled, and separately deploy a much smaller TFLite Micro model on an ESP32-CAM, benchmarking and comparing both deployment tiers explicitly. Then complete the full deployment mini-module in one pass: package the inference node as a Docker container, deploy it to the device over SSH with a Bash automation script, configure it to auto-start via systemd on boot, add MQTT telemetry back to a base station, write unit AND integration tests that run before deployment, implement a logging strategy you can inspect remotely, write a deployment runbook, and wire up a GitHub Actions pipeline that builds, tests, and deploys automatically on every push."
  },
  {
   "id": 12,
@@ -2902,6 +2728,51 @@ const PHASES=[
      {
       "label": "Controllability and observability (conceptual introduction)",
       "tag": "hard"
+     }
+    ]
+   },
+   {
+    "section": "Modern & Optimal Control",
+    "items": [
+     {
+      "label": "State-space models in depth: A, B, C, D matrices and simulating system response",
+      "tag": "hard"
+     },
+     {
+      "label": "The Linear Quadratic Regulator (LQR): cost function formulation (state error + control effort)",
+      "tag": "hard"
+     },
+     {
+      "label": "Solving the Algebraic Riccati Equation to derive the optimal LQR gain matrix K",
+      "tag": "hard"
+     },
+     {
+      "label": "Tuning Q and R weighting matrices and their effect on the controller's behaviour",
+      "tag": "hard"
+     },
+     {
+      "label": "Implementing LQR on a real or simulated system (e.g. an inverted pendulum or the DC motor from your capstone) and comparing against PID",
+      "tag": "hard"
+     },
+     {
+      "label": "Model Predictive Control (MPC): receding horizon optimisation concept",
+      "tag": "hard"
+     },
+     {
+      "label": "Formulating and solving a constrained finite-horizon optimisation problem for MPC",
+      "tag": "hard"
+     },
+     {
+      "label": "Handling actuator and state constraints explicitly — MPC's key advantage over LQR/PID",
+      "tag": "hard"
+     },
+     {
+      "label": "Implementing a basic MPC controller (e.g. with Python's cvxpy or do-mpc) on a simulated system",
+      "tag": "hard"
+     },
+     {
+      "label": "When to reach for PID vs LQR vs MPC — an honest engineering tradeoff, not a hierarchy",
+      "tag": "core"
      }
     ]
    },
@@ -2965,20 +2836,23 @@ const PHASES=[
     "type": "free",
     "items": [
      "MIT OCW 6.302/2.004 Feedback Control Systems",
+     "Brian Douglas: Control Systems Lectures — LQR and MPC playlists (YouTube)",
+     "Steve Brunton: Control Bootcamp — LQR, Kalman filtering, MPC (YouTube, free)",
      "Reinforcement Learning: An Introduction — Sutton & Barto (free PDF)",
      "OpenAI Gym / Gymnasium documentation",
-     "Brian Douglas: Control Systems Lectures (YouTube)"
+     "do-mpc documentation (free Python MPC toolbox)"
     ]
    },
    {
     "type": "books",
     "items": [
      "Feedback Control of Dynamic Systems — Franklin, Powell, Emami-Naeini",
-     "Modern Control Engineering — Ogata"
+     "Modern Control Engineering — Ogata",
+     "Predictive Control for Linear and Hybrid Systems — Borrelli, Bemporad, Morari (free PDF)"
     ]
    }
   ],
-  "capstone": "Experimentally identify the transfer function of a real DC motor from step-response data, derive PID gains analytically from the identified model (not by trial-and-error alone), tune and validate on the real motor. Then implement Q-learning entirely from scratch (tabular, not a library) on a matching simulated environment of the same motor, and write a rigorous, honest comparison of PID vs RL: settling time, overshoot, steady-state error, and how much tuning effort each required."
+  "capstone": "Experimentally identify the transfer function of a real DC motor from step-response data, then implement and tune FOUR controllers on it: a classical PID, an LQR controller (deriving the gain matrix by solving the Riccati equation and tuning Q/R), a basic MPC controller with explicit actuator constraints, and a Q-learning RL agent (implemented entirely from scratch, no library) trained on a matching simulated environment. Write a rigorous, honest comparison across all four: settling time, overshoot, steady-state error, constraint handling, and how much tuning/implementation effort each required."
  },
  {
   "id": 13,
@@ -5469,8 +5343,8 @@ const PHASE_MAP=[
 ];
 
 const PLANS = {
- "12mo": {
-  "label": "12-month · 18 hrs/wk (expanded scope)",
+ "15mo": {
+  "label": "15-month · 18 hrs/wk (expanded scope)",
   "hrs": "1750+",
   "dur": "~14 months",
   "wk": "18 hrs",
@@ -5623,10 +5497,10 @@ const PLANS = {
   ]
  },
  "24mo": {
-  "label": "24-month · 10 hrs/wk (expanded scope)",
-  "hrs": "1000+",
-  "dur": "~24 months",
-  "wk": "10 hrs",
+  "label": "24-month · 13 hrs/wk (expanded scope)",
+  "hrs": "1750+",
+  "dur": "~20 months",
+  "wk": "13 hrs",
   "phases": [
    {
     "name": "Phase 0 — Foundations",
@@ -5776,7 +5650,7 @@ const PLANS = {
   ]
  },
  "accel": {
-  "label": "Accelerated (holidays) · 28 hrs/wk",
+  "label": "Accelerated (~10 months) · 28 hrs/wk",
   "hrs": "1750+",
   "dur": "~41 weeks",
   "wk": "28 hrs",
@@ -6144,6 +6018,8 @@ function renderChecklist(){
 
 // ===== RENDER PROJECTS =====
 function renderProjGrid(){
+  const allBtn=document.getElementById('allProjBtn');
+  if(allBtn) allBtn.textContent=`All (${PROJECTS.length})`;
   const grid=document.getElementById('projGrid');
   const filtered=PROJECTS.filter(p=>{
     if(projFilter==='ready') return isReady(p);
@@ -6245,12 +6121,16 @@ function renderMap(){
 
 // ===== RENDER STUDY PLANS =====
 function renderPlans(){
-  Object.entries(PLANS).forEach(([key,plan])=>{
+  const keys=Object.keys(PLANS);
+  document.getElementById('planSel').innerHTML=keys.map((key,i)=>
+    `<button class="planb${i===0?' active':''}" onclick="setPlan('${key}',this)">${PLANS[key].label}</button>`
+  ).join('');
+  document.getElementById('planPanels').innerHTML=keys.map((key,i)=>
+    `<div id="plan-${key}" class="planc${i===0?' active':''}"></div>`
+  ).join('');
+  keys.forEach(key=>{
+    const plan=PLANS[key];
     const el=document.getElementById('plan-'+key);
-  if (!el) {
-  console.warn('Missing plan container for key:', key);
-  return;
-}
     const statsHTML=`<div class="planstats">
       <div class="planstat"><div class="psv">${plan.dur}</div><div class="psl">duration</div></div>
       <div class="planstat"><div class="psv">${plan.wk}</div><div class="psl">per week</div></div>
