@@ -212,6 +212,231 @@ h1{font-size:22px;font-weight:700;margin-bottom:4px}
   </div>
 </div>
 <h1>AI and Robotics Self-Learning Curriculum</h1>
+<p class="sub">16 phases · 460+ from-scratch topics · mastery checklists · 24 Project Blueprints + Phase→Project Map · Progress auto-saved in browser</p>
+<div class="tabs" id="mainTabs">
+  <button class="tab active" onclick="switchTab('roadmap')">📚 Roadmap</button>
+  <button class="tab" onclick="switchTab('checklist')">✅ Mastery</button>
+  <button class="tab" onclick="switchTab('projects')">🔨 Blueprints</button>
+  <button class="tab" onclick="switchTab('map')">🗺 Phase→Project</button>
+  <button class="tab" onclick="switchTab('studyplan')">📅 Study Plans</button>
+  <button class="tab" onclick="switchTab('careers')">💼 Careers</button>
+</div>
+<div id="tab-roadmap">
+  <p class="sec-title">Curriculum Roadmap</p>
+  <p class="sec-sub">16 phases · click any phase to expand topics, resources, and capstone project.</p>
+  <div class="sumbar">
+    <div><div class="sv" id="rd-done">0</div><div class="sl">mastered</div></div>
+    <div class="sp"><div class="sf" id="rd-bar" style="width:0%"></div></div>
+    <div style="text-align:right"><div class="sv" id="rd-total">0</div><div class="sl">total topics</div></div>
+  </div>
+  <div class="pg" id="phaseGrid"></div>
+</div>
+<div id="tab-checklist" style="display:none">
+  <p class="sec-title">Mastery Checklist</p>
+  <p class="sec-sub">All topics in one flat list. Filter and check off as you master each one.</p>
+  <div class="chips">
+    <button class="chip active" onclick="setCkF('all',this)">All</button>
+    <button class="chip" onclick="setCkF('undone',this)">Remaining</button>
+    <button class="chip" onclick="setCkF('done',this)">Mastered</button>
+    <button class="chip" onclick="setCkF('core',this)">Core</button>
+    <button class="chip" onclick="setCkF('hard',this)">Advanced</button>
+    <button class="chip" onclick="setCkF('tool',this)">Tools</button>
+  </div>
+  <div id="masterCk"></div>
+</div>
+<div id="tab-projects" style="display:none">
+  <p class="sec-title">Project Blueprints</p>
+  <p class="sec-sub">Step-by-step guides for all 24 projects — data, architecture, implementation, evaluation, portfolio tips. 🟢 = you have the prerequisite topics checked.</p>
+  <div class="chips" id="projChips">
+    <button class="chip active" onclick="setPF('all',this)" id="allProjBtn">All (24)</button>
+    <button class="chip" onclick="setPF('beginner',this)">Beginner</button>
+    <button class="chip" onclick="setPF('intermediate',this)">Intermediate</button>
+    <button class="chip" onclick="setPF('advanced',this)">Advanced</button>
+    <button class="chip" onclick="setPF('flagship',this)">Flagship</button>
+    <button class="chip" onclick="setPF('ready',this)">🟢 Ready now</button>
+  </div>
+  <div class="projgrid" id="projGrid"></div>
+</div>
+<div id="tab-map" style="display:none">
+  <p class="sec-title">Phase → Project Map</p>
+  <p class="sec-sub">Which projects become available after completing each phase, and exactly what skills that phase contributes to each project.</p>
+  <div class="mapgrid" id="mapGrid"></div>
+</div>
+<div id="tab-studyplan" style="display:none">
+  <p class="sec-title">Study Plans</p>
+  <p class="sec-sub">Three pacing options — same curriculum, projects embedded into each phase timeline.</p>
+  <div class="plansel" id="planSel"></div>
+  <div id="planPanels"></div>
+</div>
+<div id="tab-careers" style="display:none">
+  <p class="sec-title">Career Roadmaps</p>
+  <p class="sec-sub">Seven specialisation tracks built from this curriculum.</p>
+  <div class="cgrid" id="careerGrid"></div>
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// ══ SUPABASE SETUP ════════════════════════════════════════════════
+const SUPABASE_URL  = 'https://rjfoaphfouufwdvfrtjk.supabase.co';   // ← paste yours here
+const SUPABASE_ANON = 'sb_publishable_v_wbr7f9iSSDdnPUHIJfXQ_2toXKz57';      // ← paste yours here
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+let currentUser = null;
+
+// ══ AUTH FUNCTIONS ════════════════════════════════════════════════
+function showModal(){ document.getElementById('loginModal').style.display='flex'; }
+function closeModal(){ document.getElementById('loginModal').style.display='none'; }
+
+async function signIn(){
+  const email = document.getElementById('authEmail').value;
+  const pass  = document.getElementById('authPass').value;
+  const {error} = await sb.auth.signInWithPassword({email, password: pass});
+  if(error){ showError(error.message); } else { closeModal(); }
+}
+
+async function signUp(){
+  const email = document.getElementById('authEmail').value;
+  const pass  = document.getElementById('authPass').value;
+  const {error} = await sb.auth.signUp({email, password: pass});
+  if(error){ showError(error.message); }
+  else { showError('Check your email to confirm your account!'); }
+}
+
+async function signOut(){
+  await sb.auth.signOut();
+  currentUser = null;
+  updateAuthBar(null);
+}
+
+function showError(msg){
+  const el = document.getElementById('authError');
+  el.textContent = msg; el.style.display = 'block';
+}
+
+function updateAuthBar(user){
+  const status = document.getElementById('authStatus');
+  const btns   = document.getElementById('authBtns');
+  if(user){
+    status.textContent = `✓ Syncing as ${user.email}`;
+    btns.innerHTML = `<button onclick="signOut()"
+      style="padding:6px 14px;border-radius:8px;border:.5px solid var(--bd2);
+             background:transparent;color:var(--tx2);font-size:12px;cursor:pointer">
+      Sign out
+    </button>`;
+  } else {
+    status.textContent = 'Progress not syncing — sign in to save across devices';
+    btns.innerHTML = `<button onclick="showModal()"
+      style="padding:6px 14px;border-radius:8px;border:none;
+             background:var(--tx);color:var(--bg);font-size:12px;
+             font-weight:600;cursor:pointer">
+      Sign in / Sign up
+    </button>`;
+  }
+}
+
+// ══ PROGRESS: LOAD ════════════════════════════════════════════════
+async function loadProgress(){
+  if(!currentUser){
+    // Fall back to localStorage if not logged in
+    checkSt.portoitem::before{content:"★";color:#854F0B;font-size:12px;flex-shrink:0;margin-top:2px}
+/* MAP */
+.mapgrid{display:flex;flex-direction:column;gap:10px}
+.mapcard{background:var(--bg);border:.5px solid var(--bd);border-radius:var(--rl);padding:14px 16px}
+.mapph{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.mapbadge{width:30px;height:30px;border-radius:50%;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.mapphname{font-size:14px;font-weight:700}
+.mapprops{display:flex;flex-direction:column;gap:5px}
+.maprow{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:var(--r);background:var(--bg2);border:.5px solid var(--bd)}
+.maplvl{font-size:10px;padding:2px 7px;border-radius:10px;font-weight:700;flex-shrink:0}
+.mapname{font-size:13px;font-weight:600;flex:1}.maprole{font-size:11px;color:var(--tx2)}
+/* STUDY PLANS */
+.plansel{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1.2rem}
+.planb{padding:6px 14px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;border:.5px solid var(--bd2);background:transparent;color:var(--tx2);transition:all .15s}
+.planb:hover{background:var(--bg2)}.planb.active{background:var(--tx);color:var(--bg);border-color:transparent}
+.planc{display:none}.planc.active{display:block}
+.planstats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:1.2rem}
+.planstat{background:var(--bg);border-radius:var(--r);padding:12px;text-align:center}
+.psv{font-size:20px;font-weight:700}.psl{font-size:11px;color:var(--tx2);margin-top:2px}
+.tl{display:flex;flex-direction:column}
+.tlrow{display:flex;gap:12px}
+.tll{display:flex;flex-direction:column;align-items:center;width:26px;flex-shrink:0}
+.tldot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.tlline{width:1.5px;flex:1;background:var(--bd2);min-height:14px}
+.tlrow:last-child .tlline{display:none}
+.tlc{padding-bottom:18px;flex:1}
+.tlt{font-size:14px;font-weight:700}.tlm{font-size:12px;color:var(--tx2);margin-top:2px}
+.tls{font-size:12px;color:var(--tx3);margin-top:4px;line-height:1.55}
+.tlprojs{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px}
+.tlptag{font-size:11px;padding:2px 8px;border-radius:10px;background:var(--bg2);color:var(--tx2);border:.5px solid var(--bd)}
+/* CAREERS */
+.cgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:540px){.cgrid{grid-template-columns:1fr}}
+.ccard{background:var(--bg);border:.5px solid var(--bd);border-radius:var(--rl);padding:14px 16px}
+.ctitle{font-size:15px;font-weight:700;margin-bottom:3px}.csal{font-size:12px;color:var(--tx2);margin-bottom:10px}
+.cskill{font-size:12px;padding:2px 0;display:flex;gap:6px}.cskill::before{content:"•";color:var(--tx3)}
+.phasesec{font-size:11px;font-weight:700;color:var(--tx2);border-bottom:.5px solid var(--bd);padding-bottom:6px;margin-bottom:8px;margin-top:18px}
+.phasesec:first-child{margin-top:0}
+</style>
+ <link rel="preconnect" href="https://cdn.jsdelivr.net">
+ <link rel="preconnect" href="https://rjfoaphfouufwdvfrtjk.supabase.co">
+</head>
+<body>
+<div class="wrap">
+ <!-- Auth bar -->
+<div id="authBar" style="display:flex;align-items:center;gap:10px;
+     margin-bottom:1rem;padding:10px 14px;background:var(--bg);
+     border:.5px solid var(--bd);border-radius:var(--rl)">
+  <div id="authStatus" style="flex:1;font-size:13px;color:var(--tx2)">
+    Loading...
+  </div>
+  <div id="authBtns"></div>
+</div>
+
+<!-- Login modal -->
+<div id="loginModal" style="display:none;position:fixed;inset:0;
+     background:rgba(0,0,0,0.5);z-index:999;
+     align-items:center;justify-content:center">
+  <div style="background:var(--bg);border-radius:16px;padding:28px;
+              width:320px;max-width:90vw">
+    <h2 style="font-size:17px;font-weight:700;margin-bottom:4px">
+      Sign in to sync progress
+    </h2>
+    <p style="font-size:13px;color:var(--tx2);margin-bottom:20px">
+      Progress saves to your account across all devices.
+    </p>
+    <input id="authEmail" type="email" placeholder="Email address"
+      style="width:100%;padding:9px 12px;border-radius:8px;
+             border:.5px solid var(--bd2);background:var(--bg2);
+             color:var(--tx);font-size:14px;margin-bottom:8px">
+    <input id="authPass" type="password" placeholder="Password"
+      style="width:100%;padding:9px 12px;border-radius:8px;
+             border:.5px solid var(--bd2);background:var(--bg2);
+             color:var(--tx);font-size:14px;margin-bottom:14px">
+    <div style="display:flex;gap:8px">
+      <button onclick="signIn()"
+        style="flex:1;padding:9px;border-radius:8px;border:none;
+               background:var(--tx);color:var(--bg);
+               font-size:13px;font-weight:600;cursor:pointer">
+        Sign In
+      </button>
+      <button onclick="signUp()"
+        style="flex:1;padding:9px;border-radius:8px;
+               border:.5px solid var(--bd2);background:transparent;
+               color:var(--tx);font-size:13px;font-weight:600;cursor:pointer">
+        Sign Up
+      </button>
+    </div>
+    <p id="authError" style="color:#cc3333;font-size:12px;
+       margin-top:10px;display:none"></p>
+    <button onclick="closeModal()"
+      style="width:100%;margin-top:12px;padding:7px;border-radius:8px;
+             border:.5px solid var(--bd);background:transparent;
+             color:var(--tx2);font-size:13px;cursor:pointer">
+      Cancel (use local storage only)
+    </button>
+  </div>
+</div>
+<h1>AI and Robotics Self-Learning Curriculum</h1>
 <p class="sub">16 phases · 440+ from-scratch topics · mastery checklists · 24 Project Blueprints + Phase→Project Map · Progress auto-saved in browser</p>
 <div class="tabs" id="mainTabs">
   <button class="tab active" onclick="switchTab('roadmap')">📚 Roadmap</button>
