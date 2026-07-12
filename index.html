@@ -212,7 +212,7 @@ h1{font-size:22px;font-weight:700;margin-bottom:4px}
   </div>
 </div>
 <h1>AI and Robotics Self-Learning Curriculum</h1>
-<p class="sub">16 phases · 460+ from-scratch topics · mastery checklists · 24 Project Blueprints + Phase→Project Map · Progress auto-saved in browser</p>
+<p class="sub">16 phases · 500+ from-scratch topics · mastery checklists · 28 Project Blueprints + Phase→Project Map · Progress auto-saved in browser</p>
 <div class="tabs" id="mainTabs">
   <button class="tab active" onclick="switchTab('roadmap')">📚 Roadmap</button>
   <button class="tab" onclick="switchTab('checklist')">✅ Mastery</button>
@@ -246,7 +246,7 @@ h1{font-size:22px;font-weight:700;margin-bottom:4px}
 </div>
 <div id="tab-projects" style="display:none">
   <p class="sec-title">Project Blueprints</p>
-  <p class="sec-sub">Step-by-step guides for all 24 projects — data, architecture, implementation, evaluation, portfolio tips. 🟢 = you have the prerequisite topics checked.</p>
+  <p class="sec-sub">Step-by-step guides for all 28 projects — data, architecture, implementation, evaluation, portfolio tips. 🟢 = you have the prerequisite topics checked.</p>
   <div class="chips" id="projChips">
     <button class="chip active" onclick="setPF('all',this)" id="allProjBtn">All (24)</button>
     <button class="chip" onclick="setPF('beginner',this)">Beginner</button>
@@ -484,6 +484,22 @@ const PHASES=[
       "tag": "hard"
      },
      {
+      "label": "Convex sets and convex functions: what makes an optimisation problem 'easy'",
+      "tag": "hard"
+     },
+     {
+      "label": "Convex optimisation basics: why a local minimum is guaranteed to be global for convex problems",
+      "tag": "hard"
+     },
+     {
+      "label": "Numerical stability and conditioning: why the same equation can be solved well or badly depending on implementation",
+      "tag": "hard"
+     },
+     {
+      "label": "Floating-point arithmetic and error propagation — why 0.1 + 0.2 != 0.3 in code, and when it actually matters",
+      "tag": "core"
+     },
+     {
       "label": "Gradient descent derived from Taylor series first principles",
       "tag": "core"
      },
@@ -543,6 +559,27 @@ const PHASES=[
      {
       "label": "Correlation vs causation, and common statistical fallacies",
       "tag": "core"
+     }
+    ]
+   },
+   {
+    "section": "Information Theory — from scratch",
+    "items": [
+     {
+      "label": "Entropy: derivation as the expected 'surprise' of a distribution",
+      "tag": "core"
+     },
+     {
+      "label": "Cross-entropy and its direct connection to the loss function you'll use throughout Phase 5/7",
+      "tag": "core"
+     },
+     {
+      "label": "KL divergence: measuring the distance between two probability distributions",
+      "tag": "hard"
+     },
+     {
+      "label": "Mutual information: quantifying how much one variable tells you about another",
+      "tag": "hard"
      }
     ]
    },
@@ -786,6 +823,43 @@ const PHASES=[
      },
      {
       "label": "SSH: remote access, key-based authentication, port forwarding",
+      "tag": "tool"
+     }
+    ]
+   },
+   {
+    "section": "Modern C++ for Systems Programming",
+    "items": [
+     {
+      "label": "Manual memory management: stack vs heap, new/delete, and why C++ doesn't garbage-collect for you",
+      "tag": "core"
+     },
+     {
+      "label": "RAII (Resource Acquisition Is Initialization): the core idiom behind safe C++ resource handling",
+      "tag": "hard"
+     },
+     {
+      "label": "Move semantics and rvalue references: why they matter for performance-critical robotics code",
+      "tag": "hard"
+     },
+     {
+      "label": "Smart pointers (unique_ptr, shared_ptr) as RAII applied to memory specifically",
+      "tag": "core"
+     },
+     {
+      "label": "Template programming basics for generic, reusable C++ code",
+      "tag": "hard"
+     },
+     {
+      "label": "Multithreading in C++: std::thread, mutexes, and the same race-condition issues from the OS section, now in C++",
+      "tag": "hard"
+     },
+     {
+      "label": "CMake: build system fundamentals for any real C++ project (including ROS2 packages)",
+      "tag": "core"
+     },
+     {
+      "label": "Debugging with gdb and profiling with perf/valgrind — finding bugs and bottlenecks a print statement can't",
       "tag": "tool"
      }
     ]
@@ -1102,6 +1176,10 @@ const PHASES=[
      {
       "label": "UART/serial communication: baud rate, framing, hardware vs software serial",
       "tag": "core"
+     },
+     {
+      "label": "CAN Bus: differential signalling, arbitration, and why it's the standard for real-world vehicle/robot networks",
+      "tag": "hard"
      },
      {
       "label": "Arduino framework internals (what digitalWrite/analogRead actually do)",
@@ -1664,6 +1742,22 @@ const PHASES=[
      {
       "label": "Homogeneous transformation matrices combining rotation and translation",
       "tag": "hard"
+     },
+     {
+      "label": "SO(3) as the Lie group of 3D rotations: why it's the modern alternative to Euler angles/quaternions",
+      "tag": "hard"
+     },
+     {
+      "label": "SE(3) as the Lie group of rigid body transformations (rotation + translation combined)",
+      "tag": "hard"
+     },
+     {
+      "label": "Lie algebras (so(3)/se(3)) as the 'tangent space' — why optimisation over rotations uses this instead of raw matrices",
+      "tag": "hard"
+     },
+     {
+      "label": "Exponential/logarithm maps between a Lie group and its algebra (conceptual + small worked example)",
+      "tag": "hard"
      }
     ]
    },
@@ -1816,12 +1910,24 @@ const PHASES=[
     "section": "Path Planning & Navigation",
     "items": [
      {
+      "label": "Graph theory basics: graphs, weighted edges, trees — the structure every planning algorithm searches over",
+      "tag": "core"
+     },
+     {
+      "label": "Graph search fundamentals: BFS/DFS, shortest path formulation, minimum spanning trees",
+      "tag": "core"
+     },
+     {
       "label": "Configuration space (C-space) concept for planning with obstacles",
       "tag": "hard"
      },
      {
       "label": "Dijkstra's algorithm and A* search with heuristics",
       "tag": "core"
+     },
+     {
+      "label": "Probabilistic Roadmaps (PRM) for high-dimensional configuration spaces",
+      "tag": "hard"
      },
      {
       "label": "Rapidly-exploring Random Trees (RRT and RRT*)",
@@ -1838,22 +1944,38 @@ const PHASES=[
     ]
    },
    {
-    "section": "Introduction to SLAM",
+    "section": "SLAM — Simultaneous Localisation and Mapping",
     "items": [
+     {
+      "label": "The SLAM problem formulation: why localisation and mapping are coupled, not separable",
+      "tag": "hard"
+     },
      {
       "label": "Occupancy grid mapping representation",
       "tag": "hard"
      },
      {
-      "label": "The SLAM problem formulation (simultaneous localisation and mapping)",
+      "label": "EKF-SLAM: representing robot pose + landmark positions in one state vector, and why it doesn't scale well",
       "tag": "hard"
      },
      {
-      "label": "Particle-filter-based SLAM conceptual overview",
+      "label": "Particle-filter-based SLAM (FastSLAM) and how it factors the problem to scale better than EKF-SLAM",
+      "tag": "hard"
+     },
+     {
+      "label": "Graph-based SLAM: pose graphs, loop closure, and optimisation-based map correction",
       "tag": "hard"
      },
      {
       "label": "Visual odometry basics: estimating motion from camera frames",
+      "tag": "core"
+     },
+     {
+      "label": "Visual SLAM overview (e.g. ORB-SLAM architecture): feature tracking + mapping + loop closure combined",
+      "tag": "tool"
+     },
+     {
+      "label": "LiDAR SLAM overview: point cloud registration (ICP) as the LiDAR equivalent of visual feature matching",
       "tag": "tool"
      }
     ]
@@ -2798,11 +2920,23 @@ const PHASES=[
     ]
    },
    {
-    "section": "Reinforcement Learning Fundamentals",
+    "section": "Formal Decision-Making Under Uncertainty & Reinforcement Learning",
     "items": [
      {
-      "label": "Markov Decision Process (MDP) formulation: states, actions, rewards, transitions",
+      "label": "Markov Decision Process (MDP) formulation: states, actions, rewards, transition probabilities",
       "tag": "core"
+     },
+     {
+      "label": "Bellman optimality equations derived for both value functions and Q-functions",
+      "tag": "hard"
+     },
+     {
+      "label": "Partially Observable MDPs (POMDPs): why 'partially observable' breaks the clean MDP assumptions",
+      "tag": "hard"
+     },
+     {
+      "label": "Belief states as the POMDP's way of tracking uncertainty over the true hidden state",
+      "tag": "hard"
      },
      {
       "label": "Value functions and the Bellman equation derived",
@@ -3106,6 +3240,48 @@ const PHASES=[
       "tag": "tool"
      }
     ]
+   },
+   {
+    "section": "Professional & Ethical Practice",
+    "items": [
+     {
+      "label": "Ethics in AI: bias, fairness, and accountability in systems you build and deploy",
+      "tag": "core"
+     },
+     {
+      "label": "Robotics safety fundamentals: physical safety around actuated systems, fail-safe design",
+      "tag": "core"
+     },
+     {
+      "label": "Awareness of functional safety standards (e.g. IEC 61508) and robotics-specific standards (e.g. ISO 10218)",
+      "tag": "tool"
+     }
+    ]
+   },
+   {
+    "section": "Product Thinking & Pitching for Engineers",
+    "items": [
+     {
+      "label": "Idea validation: identifying a real customer and problem before committing to a design",
+      "tag": "core"
+     },
+     {
+      "label": "Cost-of-goods thinking: estimating a realistic bill-of-materials cost for a hardware product",
+      "tag": "core"
+     },
+     {
+      "label": "Honestly comparing your solution against existing alternatives, including where they're better",
+      "tag": "core"
+     },
+     {
+      "label": "Structuring and delivering a technical pitch to a non-technical audience (investors, grant panels, customers)",
+      "tag": "core"
+     },
+     {
+      "label": "Basic IP awareness: patents vs trade secrets vs open-source — knowing which applies to your work (not how to file one)",
+      "tag": "tool"
+     }
+    ]
    }
   ],
   "resources": [
@@ -3203,7 +3379,8 @@ const PROJECTS=[
    "Short README explaining what the 2 principal components physically represent for this dataset.",
    "Side-by-side plot: raw signal vs its frequency spectrum.",
    "Compare your from-scratch PCA against sklearn's PCA to prove correctness."
-  ]
+  ],
+  "materials": "No physical hardware required — a laptop with Python (NumPy, Pandas, Matplotlib, SciPy) is sufficient. Optional: use your own logged sensor data from Project 1 if you've already built it."
  },
  {
   "id": 1,
@@ -3285,7 +3462,8 @@ const PROJECTS=[
    "Photo/video of the physical build with sensors wired and enclosure.",
    "A short log/graph of real readings collected over at least 24 hours.",
    "Wiring diagram in the README — shows you can communicate hardware design, not just code."
-  ]
+  ],
+  "materials": "ESP32 dev board (e.g. ESP32-WROOM-32 DevKit), DHT22 temperature/humidity sensor, capacitive soil moisture sensor, breadboard, jumper wires (M-M and M-F), USB cable for programming, 5V power supply or LiPo battery + charging module for field testing, multimeter for wiring checks."
  },
  {
   "id": 2,
@@ -3367,7 +3545,8 @@ const PROJECTS=[
    "Plot of target vs actual RPM over time, showing the step response and settling behaviour.",
    "Document your PID tuning process and final Kp/Ki/Kd values with reasoning.",
    "Short video of the motor recovering speed when manually loaded."
-  ]
+  ],
+  "materials": "Arduino Uno or ESP32, a DC motor with an attached quadrature rotary encoder, an H-bridge motor driver module (L298N or DRV8833), a separate power supply for the motor (6–12V depending on motor rating — do not power the motor from the microcontroller's 5V pin), breadboard, jumper wires, multimeter. A logic analyzer or oscilloscope helps but a smartphone oscilloscope app can substitute."
  },
  {
   "id": 3,
@@ -3455,7 +3634,8 @@ const PROJECTS=[
    "FEA stress plot screenshot with the safety factor calculation shown.",
    "Photo/video of the assembled, working gripper picking up a small object.",
    "Exploded assembly view or BOM showing your design thinking."
-  ]
+  ],
+  "materials": "Access to SolidWorks (student license, e.g. via your university, or the free trial), access to an FDM 3D printer (personal, makerspace, or a print-on-demand service), PETG or PLA filament, one hobby servo motor (SG90 for light loads or MG996R for more torque), M3 bolts/nuts and pivot pins, a small luggage/kitchen scale to measure actual grip force, calipers to verify printed dimensions against your design."
  },
  {
   "id": 4,
@@ -3539,7 +3719,8 @@ const PROJECTS=[
    "README explaining the agronomic reasoning behind your top features, not just the metrics.",
    "SHAP summary plot as the centrepiece visual.",
    "Note dataset limitations honestly (e.g. no soil pH, no pest data) — shows engineering maturity."
-  ]
+  ],
+  "materials": "No physical hardware — a laptop with Python, Pandas, LightGBM, Optuna, and SHAP installed. Dataset is a free download from Kaggle or FAO."
  },
  {
   "id": 5,
@@ -3617,7 +3798,8 @@ const PROJECTS=[
    "Plot showing forecasted vs actual soil moisture with rainfall events marked.",
    "Explain in the README how this could feed an automated irrigation valve (ties into Phase 11).",
    "Discuss what other regressors (temperature, wind, crop stage) would likely improve it further."
-  ]
+  ],
+  "materials": "No physical hardware — a laptop with Python, Prophet, Pandas, and Plotly. Optionally, use your own logged soil moisture data from Project 1 instead of a public dataset."
  },
  {
   "id": 6,
@@ -3699,7 +3881,8 @@ const PROJECTS=[
    "Plot of the arm's reachable workspace (all points reachable given link lengths and joint limits).",
    "Short video of the physical arm moving to several commanded targets.",
    "Clear derivation of the IK equations in the README — shows the underlying math, not just code."
-  ]
+  ],
+  "materials": "A computer running Ubuntu (native or VM) with ROS2 installed. Fully doable in simulation (RViz) with no physical arm. Optional, for a real physical arm: 2 hobby servos, simple 3D-printed or improvised (wood/cardboard) arm links, an Arduino/ESP32 to drive the servos, USB cable."
  },
  {
   "id": 7,
@@ -3781,7 +3964,8 @@ const PROJECTS=[
    "Video of the rover navigating an obstacle course autonomously.",
    "Diagram of the potential-field logic with repulsive/attractive vectors illustrated.",
    "Honest discussion of failure cases (e.g. narrow gaps, sensor blind spots)."
-  ]
+  ],
+  "materials": "A wheeled robot chassis kit (2 or 4 wheels with DC motors), an H-bridge motor driver (L298N), three HC-SR04 ultrasonic sensors, an MPU6050 (or similar) IMU module, a Raspberry Pi 4 (recommended, to run ROS2 onboard) or an ESP32 as a sensor/motor interface to a laptop running ROS2, a battery pack for the rover, protoboard/breadboard and mounting hardware (screws/standoffs)."
  },
  {
   "id": 8,
@@ -3864,7 +4048,8 @@ const PROJECTS=[
    "Side-by-side comparison table: from-scratch CNN vs transfer-learned ResNet — accuracy, training time.",
    "Sample predictions grid showing correct and incorrect classifications with confidence scores.",
    "Discuss what would be needed to make this robust to real field photos (varying light, dirt, occlusion) vs the clean dataset."
-  ]
+  ],
+  "materials": "A laptop with PyTorch installed. GPU access is recommended but not required to purchase — Google Colab's free tier or Kaggle Notebooks both provide free GPU time sufficient for this project. Dataset (PlantVillage) is a free public download."
  },
  {
   "id": 9,
@@ -3947,7 +4132,8 @@ const PROJECTS=[
    "Screen recording of live detection on a webcam or field video with bounding boxes.",
    "mAP and FPS table comparing YOLOv8n vs YOLOv8s and pre/post ONNX export.",
    "Discuss what would be needed to make this robust across growth stages and lighting conditions."
-  ]
+  ],
+  "materials": "A laptop with Python, YOLOv8 (ultralytics), and OpenCV. A webcam or phone camera for live testing. A free Roboflow account for dataset access/annotation. GPU access recommended for training (Colab's free tier is sufficient for YOLOv8n/s)."
  },
  {
   "id": 10,
@@ -4028,7 +4214,8 @@ const PROJECTS=[
    "Side-by-side: rectified stereo pair and resulting depth map, color-coded by distance.",
    "Table comparing measured vs actual distance for several test objects at known ranges.",
    "Discuss stereo vision's tradeoffs vs ultrasonic sensing for this use case (cost, range, lighting sensitivity)."
-  ]
+  ],
+  "materials": "Two identical USB webcams mounted on a rigid baseline (a simple 3D-printed or wooden mount works fine), OR a pre-built stereo module (e.g. an ELP stereo camera) if available. A printed chessboard calibration pattern glued to a flat rigid backing (cardboard is fine). A tripod or stable mount, and a tape measure for verifying baseline distance and test-object distances."
  },
  {
   "id": 11,
@@ -4109,7 +4296,8 @@ const PROJECTS=[
    "Flight path visualisation (from QGroundControl or a plotted GPS log) showing the completed survey grid.",
    "Explain the swath-width and overlap reasoning for your grid generation.",
    "If flown on real hardware, include safety checklist and geofence configuration used."
-  ]
+  ],
+  "materials": "For the recommended starting point (simulation-only): just a laptop running ArduPilot SITL and QGroundControl — no hardware purchase needed. For real flight (optional, advanced, and requires local drone registration per Phase 9): a Pixhawk-class flight controller, a drone frame with motors/ESCs/propellers, a GPS module, a telemetry radio pair, an RC transmitter/receiver, and a LiPo battery with charger."
  },
  {
   "id": 12,
@@ -4190,7 +4378,8 @@ const PROJECTS=[
    "NDVI map image as the centerpiece visual, side-by-side with the true-color image.",
    "Zonal statistics table showing which field regions need attention.",
    "Note how this NDVI output could feed the automated irrigation logic in Phase 11's capstone."
-  ]
+  ],
+  "materials": "No special hardware required — free Sentinel-2 satellite imagery (via Copernicus Open Access Hub) needs only a laptop. Optional, if you want to capture your own imagery instead: a Raspberry Pi NoIR camera module with its IR-blocking filter removed/swapped for a red-block filter, to capture a usable near-infrared band."
  },
  {
   "id": 13,
@@ -4273,7 +4462,8 @@ const PROJECTS=[
    "Benchmark table: FP32 vs INT8 latency and accuracy side by side.",
    "Video of the model running live on the Jetson/RPi with a camera feed, no internet connection.",
    "Discuss the accuracy/speed tradeoff and when it's worth accepting for field deployment."
-  ]
+  ],
+  "materials": "An NVIDIA Jetson Nano (or Orin Nano) OR a Raspberry Pi 4/5, a USB or CSI camera module, a 32GB+ microSD card, a power supply rated for the board (Jetson boards need more current than a phone charger provides), a heatsink/fan (Jetson boards throttle without one), and your trained model from Project 9."
  },
  {
   "id": 14,
@@ -4356,7 +4546,8 @@ const PROJECTS=[
    "Photo/video of the ESP32-CAM detecting the pest in real time with an LED or serial indicator.",
    "Document the full size/memory budget: model size, tensor arena size, available flash.",
    "Discuss the tradeoff versus running the same task on a Jetson/RPi (project 13) — cost, power, and accuracy differences."
-  ]
+  ],
+  "materials": "An ESP32-CAM module (with OV2640 camera), an FTDI/USB-to-serial programmer (the ESP32-CAM has no onboard USB port), a breadboard, jumper wires, a few sample specimens or reference photos of your target pest for building the dataset, and a small LED for a visual detection indicator."
  },
  {
   "id": 15,
@@ -4444,7 +4635,8 @@ const PROJECTS=[
    "Plot overlaying PID and RL step responses on the same axes.",
    "Document your honest conclusion on when RL is/isn't worth the extra complexity versus PID for this kind of task.",
    "Tie this explicitly back to your MCE 405 coursework in the README — shows deliberate integration."
-  ]
+  ],
+  "materials": "The same DC motor + encoder + H-bridge setup as Project 2 (this project reuses that physical rig). A bench power supply helps for consistent voltage during system identification tests, but a standard wall adapter works too."
  },
  {
   "id": 16,
@@ -4522,7 +4714,8 @@ const PROJECTS=[
    "Demo showing 5-6 question/answer pairs on real field or robot images.",
    "Honest discussion of where general-purpose VLMs struggle with domain-specific agricultural/robotics questions.",
    "Note this as a stepping stone toward vision-language-action models for robot decision-making."
-  ]
+  ],
+  "materials": "No physical hardware — a laptop with Python, HuggingFace Transformers, and Gradio. GPU access recommended for running BLIP-2 locally (Colab's free tier works for smaller model variants), or you can call a hosted API instead of running the model locally."
  },
  {
   "id": 17,
@@ -4620,7 +4813,8 @@ const PROJECTS=[
    "This is your flagship project — a full case study write-up: architecture, challenges, water savings data.",
    "Video walkthrough of the rover navigating, sensing, and irrigating a real test plot.",
    "Explicitly tie back to your ABE 201 and Rural Infrastructural Engineering coursework in the README."
-  ]
+  ],
+  "materials": "Builds on Projects 1, 2, and 7's hardware: a wheeled rover chassis, an ESP32 or Raspberry Pi, soil moisture sensors (one per zone, or one mobile probe), a 12V solenoid valve with a relay module, a small submersible or diaphragm water pump plus tubing for a real watering demo, a battery/power supply, and waterproofing materials (genuinely important — electronics operating near soil and water need protection). A free Supabase account for the backend dashboard."
  },
  {
   "id": 18,
@@ -4714,7 +4908,8 @@ const PROJECTS=[
    "This is the single strongest portfolio piece — full system architecture diagram showing all subsystems.",
    "Video walkthrough: rover traversing the field, sensors reporting, dashboard updating in real time.",
    "Full case study README: what each phase of the curriculum contributed to this final system."
-  ]
+  ],
+  "materials": "Everything from Project 17, plus a Jetson Nano or Raspberry Pi for onboard vision inference, a camera module, and (for the full IoT layer) multiple LoRaWAN sensor nodes (e.g. Heltec or TTGO LoRa32 boards) and a LoRaWAN gateway — or use a community gateway via The Things Network if one is in range. This is the most hardware-intensive project in the curriculum; plan to build it incrementally over several weeks reusing components from earlier projects rather than buying everything upfront."
  },
  {
   "id": 19,
@@ -4797,7 +4992,8 @@ const PROJECTS=[
    "Write-up comparing your reproduced numbers directly against the paper's reported numbers, with honest discussion of any gap.",
    "Open-source the implementation on GitHub with a clear README linking back to the paper.",
    "This is a rare, high-signal portfolio piece for research-oriented graduate programs or R&D roles."
-  ]
+  ],
+  "materials": "No physical hardware — a laptop with PyTorch and whatever dataset the specific paper you choose requires (usually a free public benchmark). GPU access recommended (Colab/Kaggle free tier)."
  },
  {
   "id": 20,
@@ -4882,7 +5078,8 @@ const PROJECTS=[
    "PyPI package link and install command front-and-center in the README.",
    "This is genuinely rare among student portfolios — a real, working, installable package beats another private notebook.",
    "Link back to which earlier project originally motivated building this utility."
-  ]
+  ],
+  "materials": "No physical hardware — a laptop with Python, a free PyPI account, and a free GitHub account."
  },
  {
   "id": 21,
@@ -4964,7 +5161,8 @@ const PROJECTS=[
    "Terminal recording showing the race condition bug and its fix side by side.",
    "README explaining the MQTT topic structure and how it maps to your sensor network design in Phase 14.",
    "systemd unit file included, with an explanation of why services matter for unattended field deployments."
-  ]
+  ],
+  "materials": "Two Linux machines — this can be your laptop plus a Raspberry Pi, or even two virtual machines if you don't have spare hardware. No sensors strictly required (simulated data works fine), though it pairs naturally with your real Project 1 sensor node as the live data source."
  },
  {
   "id": 22,
@@ -5041,7 +5239,8 @@ const PROJECTS=[
    "Before/after comparison of the codebase structure in the README.",
    "Coverage report screenshot.",
    "Link to the generated documentation site (can be hosted free via GitHub Pages)."
-  ]
+  ],
+  "materials": "No physical hardware — just your own existing project code and a laptop."
  },
  {
   "id": 23,
@@ -5123,6 +5322,337 @@ const PROJECTS=[
    "Screenshot of MLflow comparing multiple experiment runs.",
    "CI badge in your README showing passing status.",
    "Demo of the drift detector catching injected synthetic drift."
+  ],
+  "materials": "No physical hardware — a laptop with Docker installed, a free GitHub account, and MLflow (runs locally, free)."
+ },
+ {
+  "id": 24,
+  "level": "advanced",
+  "title": "Visual SLAM Mini-Implementation (Lie Groups + Pose Graph Optimisation)",
+  "tech": "Python, OpenCV, g2o or GTSAM, NumPy",
+  "outcome": "A working monocular visual odometry + pose graph optimisation pipeline demonstrating loop closure on a real recorded sequence",
+  "hours": "30–40 hrs",
+  "resume": "Advanced robotics perception & state estimation",
+  "materials": "A laptop with Python, OpenCV, and g2opy or GTSAM installed. A phone or webcam to record your own test video (walking a loop around a room or corridor with visually distinct features works well). Optionally, reuse the printed chessboard from Project 10 to calibrate the camera you're using.",
+  "prereqs": {
+   "phases": [
+    6
+   ],
+   "topics": [
+    "SO(3)/SE(3) Lie groups",
+    "visual odometry",
+    "graph-based SLAM",
+    "camera calibration"
+   ]
+  },
+  "problem": "Implement frame-to-frame visual odometry (feature matching plus essential matrix pose recovery) on a recorded video sequence, representing poses using SE(3) rather than raw rotation matrices. Then build a pose graph from the estimated trajectory, deliberately add one loop closure constraint (recognising you've returned near your starting point), and run pose graph optimisation to correct the accumulated drift.",
+  "data": {
+   "src": "Your own recorded video sequence — no external dataset needed",
+   "desc": "A walking loop path (e.g. around a room, ending back near the start) is ideal for demonstrating loop closure correction."
+  },
+  "arch": [
+   {
+    "i": "🎥",
+    "t": "<strong>Frontend:</strong> feature matching between consecutive frames"
+   },
+   {
+    "i": "📐",
+    "t": "<strong>Pose recovery:</strong> essential matrix decomposition into relative SE(3) poses"
+   },
+   {
+    "i": "🗺",
+    "t": "<strong>Pose graph:</strong> nodes = poses, edges = relative transforms, plus one loop closure edge"
+   },
+   {
+    "i": "🔧",
+    "t": "<strong>Backend:</strong> g2o/GTSAM optimisation correcting drift using the loop closure constraint"
+   }
+  ],
+  "steps": [
+   {
+    "n": 1,
+    "t": "Frame-to-frame visual odometry",
+    "d": "Extract keypoints (ORB) from consecutive frames, match them, and recover the relative camera pose using the essential matrix — represent this pose as an element of SE(3), not just a raw rotation matrix.",
+    "c": "orb=cv2.ORB_create()\nkp1,des1=orb.detectAndCompute(frame1,None)\nkp2,des2=orb.detectAndCompute(frame2,None)\nmatches=cv2.BFMatcher(cv2.NORM_HAMMING).match(des1,des2)\nE,mask=cv2.findEssentialMat(pts1,pts2,K)\n_,R,t,mask=cv2.recoverPose(E,pts1,pts2,K)"
+   },
+   {
+    "n": 2,
+    "t": "Build the pose graph and add a loop closure",
+    "d": "Chain the relative poses into an absolute trajectory, construct a pose graph with these as edges, and manually add one additional edge representing your recognition that the final frame is actually near the first frame's position.",
+    "c": "graph=PoseGraph()\nfor i,(R,t) in enumerate(relative_poses):\n  graph.add_edge(i,i+1,SE3(R,t))\n# Loop closure: you recognise frame N is back near frame 0\ngraph.add_edge(N,0,estimated_loop_closure_transform)"
+   },
+   {
+    "n": 3,
+    "t": "Pose graph optimisation",
+    "d": "Run g2o or GTSAM's optimiser over the graph, letting the loop closure constraint distribute and correct the accumulated drift across the whole trajectory.",
+    "c": "optimizer=g2o.SparseOptimizer()\n# add vertices/edges from your pose graph\noptimizer.initialize_optimization()\noptimizer.optimize(20)\ncorrected_trajectory=[v.estimate() for v in optimizer.vertices()]"
+   }
+  ],
+  "eval": [
+   {
+    "m": "Drift reduction",
+    "d": "Measurably smaller position error at the loop-closure point after optimisation compared to before."
+   },
+   {
+    "m": "Reprojection consistency",
+    "d": "Feature matches reproject consistently across the corrected trajectory."
+   },
+   {
+    "m": "Trajectory plausibility",
+    "d": "Optimised trajectory shape matches your actual walked path/room layout by eye."
+   }
+  ],
+  "porto": [
+   "Trajectory plot before vs after loop closure optimisation, overlaid on the same axes.",
+   "Short video of the input sequence alongside the estimated trajectory.",
+   "Explanation in your README of why SE(3) avoids the singularities Euler angles would introduce here."
+  ]
+ },
+ {
+  "id": 25,
+  "level": "intermediate",
+  "title": "Robot Localisation Under Uncertainty (POMDP Belief-State Simulation)",
+  "tech": "Python, NumPy, pomdp_py or custom implementation",
+  "outcome": "A simulated robot maintaining and updating a belief state over its position under noisy sensors, compared against a naive full-observability baseline",
+  "hours": "20–25 hrs",
+  "resume": "Formal decision-making under uncertainty",
+  "materials": "No physical hardware — this is a simulation project, just a laptop with Python and NumPy. Natural follow-on: port the belief-state logic onto the real noisy ultrasonic readings from Project 7's rover.",
+  "prereqs": {
+   "phases": [
+    12
+   ],
+   "topics": [
+    "MDP/POMDP formulation",
+    "Bellman equations",
+    "belief states"
+   ]
+  },
+  "problem": "Simulate a robot in a small grid world with noisy position sensing (e.g. 80% accurate readings). Implement belief-state tracking — a probability distribution over possible true positions, updated via Bayes' rule at every timestep — and compare a policy that acts on this belief state against a naive policy that simply trusts each sensor reading at face value.",
+  "data": {
+   "src": "Simulated grid world — no external dataset",
+   "desc": "A small discrete grid (e.g. 10×10) with a defined goal cell and a noisy position sensor model."
+  },
+  "arch": [
+   {
+    "i": "🗺",
+    "t": "<strong>Environment:</strong> discrete grid world with a goal cell"
+   },
+   {
+    "i": "📡",
+    "t": "<strong>Sensor model:</strong> noisy position readings (correct with fixed probability)"
+   },
+   {
+    "i": "🧮",
+    "t": "<strong>Belief update:</strong> Bayes filter over the discrete state space"
+   },
+   {
+    "i": "🎯",
+    "t": "<strong>Policy:</strong> action selection based on the belief distribution, not raw sensor reading"
+   }
+  ],
+  "steps": [
+   {
+    "n": 1,
+    "t": "Build the noisy grid world and sensor model",
+    "d": "Create a discrete grid environment where the robot's true position is hidden, and its sensor returns the correct cell only some fraction of the time (misreporting a neighbouring cell otherwise).",
+    "c": "def sense(true_pos,accuracy=0.8):\n  if random.random()<accuracy: return true_pos\n  return random.choice(neighbors(true_pos))"
+   },
+   {
+    "n": 2,
+    "t": "Implement Bayesian belief updating",
+    "d": "Maintain a probability distribution over all grid cells, updating it every timestep using Bayes' rule given the noisy sensor reading and the known action taken.",
+    "c": "def update_belief(belief,action,observation,sensor_model,transition_model):\n  predicted=apply_transition(belief,action,transition_model)\n  posterior={s:predicted[s]*sensor_model(observation,s) for s in predicted}\n  norm=sum(posterior.values())\n  return {s:p/norm for s,p in posterior.items()}"
+   },
+   {
+    "n": 3,
+    "t": "Compare belief-based vs naive policy",
+    "d": "Run many episodes where one robot acts using its full belief distribution (e.g. moving toward the highest-probability cell) and another acts naively trusting each raw sensor reading, then compare how quickly and reliably each reaches the goal.",
+    "c": "belief_success_rate=run_episodes(policy=belief_based_policy,n=200)\nnaive_success_rate=run_episodes(policy=naive_policy,n=200)\nprint(f'Belief-based: {belief_success_rate:.1%}, Naive: {naive_success_rate:.1%}')"
+   }
+  ],
+  "eval": [
+   {
+    "m": "Localisation accuracy",
+    "d": "Belief-based tracking converges to the true position faster than the naive approach across repeated trials."
+   },
+   {
+    "m": "Goal-reaching reliability",
+    "d": "Belief-based policy reaches the goal more reliably than the naive policy under the same sensor noise level."
+   },
+   {
+    "m": "Convergence behaviour",
+    "d": "Document how quickly the belief distribution recovers after a deliberately wrong initial guess."
+   }
+  ],
+  "porto": [
+   "Plot of the belief distribution evolving over time as heatmaps across the grid.",
+   "Comparison chart: belief-based vs naive policy success rate across varying sensor noise levels.",
+   "Honest discussion of where the naive approach actually does fine — POMDPs aren't always worth the complexity."
+  ]
+ },
+ {
+  "id": 26,
+  "level": "intermediate",
+  "title": "C++ ROS2 Node: Rewriting Python Sensor Fusion for Performance",
+  "tech": "Modern C++ (C++17), ROS2 rclcpp, CMake",
+  "outcome": "A C++ ROS2 package reimplementing your Project 7 sensor fusion node, with a measured performance comparison against the Python version",
+  "hours": "20–28 hrs",
+  "resume": "Modern C++ + ROS2 package engineering",
+  "materials": "The same computer/ROS2 setup used for Project 7 — no new physical hardware. This project is a software rewrite of existing functionality, using the recorded sensor data (or a live rerun) from that earlier project.",
+  "prereqs": {
+   "phases": [
+    1,
+    6
+   ],
+   "topics": [
+    "RAII/move semantics",
+    "CMake",
+    "ROS2 package architecture"
+   ]
+  },
+  "problem": "Take the sensor fusion logic from Project 7 (originally in Python/rclpy) and reimplement it as a proper C++ ROS2 package using rclcpp, applying RAII and smart pointers for resource management and CMake for the build — then benchmark CPU usage and latency against the original Python node running identical logic on identical input data.",
+  "data": {
+   "src": "Reuse the same sensor data or recorded rosbag from Project 7",
+   "desc": "IMU + ultrasonic sensor stream used to validate both implementations produce equivalent output."
+  },
+  "arch": [
+   {
+    "i": "📦",
+    "t": "<strong>Package:</strong> CMakeLists.txt-based ROS2 C++ package structure"
+   },
+   {
+    "i": "🧠",
+    "t": "<strong>Node:</strong> rclcpp node class using smart pointers for sensor handles, no raw new/delete"
+   },
+   {
+    "i": "🔁",
+    "t": "<strong>Logic:</strong> the same fusion algorithm ported line-by-line from the Python version"
+   },
+   {
+    "i": "📊",
+    "t": "<strong>Benchmark:</strong> latency/CPU comparison against the original Python node"
+   }
+  ],
+  "steps": [
+   {
+    "n": 1,
+    "t": "Set up the CMake-based ROS2 C++ package",
+    "d": "Create a proper ROS2 package structure with a CMakeLists.txt and package.xml, and get a minimal rclcpp node building and running before porting any logic.",
+    "c": "# CMakeLists.txt essentials\nfind_package(ament_cmake REQUIRED)\nfind_package(rclcpp REQUIRED)\nadd_executable(fusion_node src/fusion_node.cpp)\nament_target_dependencies(fusion_node rclcpp sensor_msgs)"
+   },
+   {
+    "n": 2,
+    "t": "Port the fusion algorithm with modern C++ practices",
+    "d": "Reimplement the same complementary/Kalman filter logic from Python in C++, using smart pointers for any dynamically allocated sensor buffer, and avoiding raw pointers entirely.",
+    "c": "class FusionNode : public rclcpp::Node {\n  std::unique_ptr<SensorBuffer> buffer_;\npublic:\n  FusionNode() : Node(\"fusion_node\") {\n    buffer_=std::make_unique<SensorBuffer>();\n    sub_=create_subscription<sensor_msgs::msg::Imu>(\"imu\",10,\n      [this](sensor_msgs::msg::Imu::SharedPtr msg){ this->on_imu(msg); });\n  }\n};"
+   },
+   {
+    "n": 3,
+    "t": "Benchmark against the Python version",
+    "d": "Run both implementations on identical recorded input data, verify they produce equivalent fused output, and measure CPU usage and per-message latency for each.",
+    "c": "# Compare: ros2 topic hz /fused_output  (for latency)\n# Compare: top -p <pid>  or  perf stat -p <pid>  (for CPU usage)\n# Verify equivalence: diff the fused output streams from both nodes on the same input"
+   }
+  ],
+  "eval": [
+   {
+    "m": "Functional equivalence",
+    "d": "C++ node produces output matching the Python version within small numerical tolerance on identical input."
+   },
+   {
+    "m": "Performance improvement",
+    "d": "Document the measured latency/CPU improvement — quantify it, don't just assert C++ is faster."
+   },
+   {
+    "m": "Memory safety",
+    "d": "Running under valgrind shows no leaks and no invalid memory access."
+   }
+  ],
+  "porto": [
+   "Benchmark table: Python vs C++ node latency and CPU usage side by side.",
+   "Clean valgrind report included as evidence of memory safety.",
+   "Package README explaining the CMake build and how to run both versions for comparison."
+  ]
+ },
+ {
+  "id": 27,
+  "level": "intermediate",
+  "title": "Product Validation & Investor Pitch for Your Flagship Build",
+  "tech": "No code — a business/communication deliverable",
+  "outcome": "A one-page product validation case and a practiced pitch deck for your Autonomous Precision Irrigation Rover or Agro-Robotics Platform",
+  "hours": "15–20 hrs",
+  "resume": "Product thinking & technical communication for non-technical audiences",
+  "materials": "No physical materials — this project is a slide deck (Google Slides, PowerPoint, or Canva, all free) and a one-page written case. It reuses your flagship project's technical results and bill of materials as source content.",
+  "prereqs": {
+   "phases": [
+    15
+   ],
+   "topics": [
+    "product validation",
+    "pitching",
+    "cost-of-goods thinking"
+   ]
+  },
+  "problem": "Take your Autonomous Precision Irrigation Rover or Integrated Agro-Robotics Platform and build the case for it as a real product, not just an engineering demo: identify a specific target customer, estimate a realistic bill-of-materials cost, honestly compare it against existing alternatives, and build a short pitch you could actually present to an investor or grant panel.",
+  "data": {
+   "src": "Your own flagship project's BOM and performance results (Projects 17/18)",
+   "desc": "Component costs, water-savings data, and system reliability figures from your actual build."
+  },
+  "arch": [
+   {
+    "i": "🎯",
+    "t": "<strong>Customer:</strong> a specific, named target customer segment (e.g. a smallholder farmer cooperative), not 'farmers' in general"
+   },
+   {
+    "i": "💰",
+    "t": "<strong>Cost:</strong> a real bill-of-materials cost breakdown, sourced from actual component prices"
+   },
+   {
+    "i": "⚖️",
+    "t": "<strong>Comparison:</strong> an honest comparison against existing alternatives — manual labour, existing commercial systems"
+   },
+   {
+    "i": "🎤",
+    "t": "<strong>Pitch:</strong> a 5–8 slide deck: problem, solution, market, traction/results, ask"
+   }
+  ],
+  "steps": [
+   {
+    "n": 1,
+    "t": "Define a specific target customer and validate the problem",
+    "d": "Name a specific customer segment precisely enough that you could describe an actual person or organisation who has this problem, and articulate what they currently do instead of your solution and why it's inadequate.",
+    "c": "# Not: \"farmers need better irrigation\"\n# Instead: \"Smallholder cassava farmers in [region] currently irrigate manually,\n# spending ~X hours/week and unable to detect under-watering until visible crop stress appears\""
+   },
+   {
+    "n": 2,
+    "t": "Build a real bill-of-materials cost breakdown",
+    "d": "List every physical component your flagship build actually used with real, sourced prices (not guesses), sum the total cost, and honestly assess whether that cost is realistic for your target customer.",
+    "c": "# BOM example line items — use YOUR actual project's components:\n# ESP32 board: $X, soil sensors (x4): $X, solenoid valve: $X, pump: $X, chassis: $X, misc wiring/enclosure: $X\n# Total: $X — compare against your target customer's likely budget"
+   },
+   {
+    "n": 3,
+    "t": "Build and practice the pitch",
+    "d": "Build a concise 5-8 slide deck covering problem, solution, target market, your results/traction (water savings data, reliability), and a clear ask (funding, pilot partnership, or grant), then practice presenting it out loud at least once — to a friend, a mirror, or a recorded video — and note where you stumbled.",
+    "c": "# Slide structure:\n# 1. Problem  2. Your solution (brief demo/photo)  3. Target market & size\n# 4. Results so far (water savings %, reliability data)  5. Cost & business model  6. The ask"
+   }
+  ],
+  "eval": [
+   {
+    "m": "BOM realism",
+    "d": "Every cost is sourced from an actual product price, not an estimate pulled from thin air."
+   },
+   {
+    "m": "Honest competitive comparison",
+    "d": "You explicitly acknowledge at least one area where an existing alternative is genuinely better or cheaper — a pitch that pretends there are no downsides is not credible."
+   },
+   {
+    "m": "Pitch delivery",
+    "d": "You've actually practiced saying it out loud at least once, not just written the slides."
+   }
+  ],
+  "porto": [
+   "The pitch deck itself as a portfolio artifact (this is genuinely rare among student engineering portfolios).",
+   "A one-page written summary of the product case.",
+   "Honest reflection on what surprised you once you actually priced out the real BOM — this candour is worth more than a polished sales pitch."
   ]
  }
 ];
@@ -5143,6 +5673,10 @@ const PHASE_MAP=[
    {
     "pid": 21,
     "role": "MQTT telemetry + Linux/OS concepts — entire project"
+   },
+   {
+    "pid": 26,
+    "role": "Modern C++ + CMake ROS2 package rewrite"
    }
   ]
  },
@@ -5216,6 +5750,10 @@ const PHASE_MAP=[
    {
     "pid": 18,
     "role": "Ground rover navigation as part of the integrated platform"
+   },
+   {
+    "pid": 24,
+    "role": "Lie groups + visual SLAM + pose graph optimisation — entire project"
    }
   ]
  },
@@ -5302,6 +5840,10 @@ const PHASE_MAP=[
    {
     "pid": 15,
     "role": "System identification, PID tuning, RL agent — entire project"
+   },
+   {
+    "pid": 25,
+    "role": "POMDP belief-state simulation — entire project"
    }
   ]
  },
@@ -5337,16 +5879,20 @@ const PHASE_MAP=[
    {
     "pid": 20,
     "role": "Open-source library publication — entire project"
+   },
+   {
+    "pid": 27,
+    "role": "Product validation & pitch deck — entire project"
    }
   ]
  }
 ];
 
 const PLANS = {
- "15mo": {
-  "label": "15-month · 18 hrs/wk (expanded scope)",
-  "hrs": "1750+",
-  "dur": "~14 months",
+ "32mo": {
+  "label": "32-month · 18 hrs/wk (full scope)",
+  "hrs": "2,100–2,800",
+  "dur": "~32 months",
   "wk": "18 hrs",
   "phases": [
    {
@@ -5496,10 +6042,10 @@ const PLANS = {
    }
   ]
  },
- "24mo": {
-  "label": "24-month · 13 hrs/wk (expanded scope)",
-  "hrs": "1750+",
-  "dur": "~20 months",
+ "44mo": {
+  "label": "44-month · 13 hrs/wk (full scope, lighter weekly load)",
+  "hrs": "2,100–2,800",
+  "dur": "~44 months",
   "wk": "13 hrs",
   "phases": [
    {
@@ -5650,9 +6196,9 @@ const PLANS = {
   ]
  },
  "accel": {
-  "label": "Accelerated (~10 months) · 28 hrs/wk",
-  "hrs": "1750+",
-  "dur": "~41 weeks",
+  "label": "Holiday-Intensive · 28 hrs/wk during breaks",
+  "hrs": "2,100–2,800",
+  "dur": "~88 active weeks (spread across your actual academic holidays)",
   "wk": "28 hrs",
   "phases": [
    {
@@ -5803,6 +6349,7 @@ const PLANS = {
   ]
  }
 };
+
 const CAREERS = [
  {
   "title": "Robotics Engineer",
@@ -6083,6 +6630,7 @@ function renderProjBody(p){
   return `<div class="pbi2">
     <div class="bpsec"><div class="bplabel">🎯 Problem</div><div style="font-size:13px;line-height:1.6;color:var(--tx2)">${p.problem}</div></div>
     <div class="bpsec"><div class="bplabel">📦 Prerequisites</div><div class="preqrow">${phases}</div></div>
+    ${p.materials?`<div class="bpsec"><div class="bplabel">🧰 Materials & Tools You'll Need</div><div style="font-size:13px;line-height:1.6;color:var(--tx2)">${p.materials}</div></div>`:''}
     <div class="bpsec"><div class="bplabel">🗄 Data</div><div class="databox"><div class="dsrc">${p.data.src}</div><div class="ddesc">${p.data.desc}</div></div></div>
     <div class="bpsec"><div class="bplabel">🏗 Architecture</div><div class="archlist">${archHTML}</div></div>
     <div class="bpsec"><div class="bplabel">🔨 Implementation Steps</div><div class="stepslist">${stepsHTML}</div></div>
