@@ -90,6 +90,16 @@ h1{font-size:22px;font-weight:700;margin-bottom:4px}
 /* data box */
 .databox{background:var(--bg);border:.5px solid var(--bd);border-radius:var(--r);padding:10px 12px}
 .dsrc{font-size:13px;font-weight:600;margin-bottom:3px}.ddesc{font-size:12px;color:var(--tx2);line-height:1.5}
+/* resources tab */
+.resphase{margin-bottom:16px;border:.5px solid var(--bd);border-radius:var(--r);overflow:hidden}
+.resphasehead{padding:10px 14px;font-size:14px;font-weight:700}
+.resphasebody{padding:12px 14px;background:var(--bg2)}
+.restype{margin-bottom:10px}
+.restype:last-child{margin-bottom:0}
+.restypelabel{font-size:11px;font-weight:700;color:var(--tx2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.resitem{font-size:13px;line-height:1.6;color:var(--tx);padding:4px 0 4px 14px;border-left:2px solid var(--bd);margin-bottom:2px}
+.resitem a,.ri a{color:inherit;text-decoration:none;border-bottom:1px solid var(--bd2)}
+.resitem a:hover,.ri a:hover{color:#3b6ee0;border-bottom-color:#3b6ee0}
 /* arch */
 .archlist{display:flex;flex-direction:column;gap:4px}
 .architem{display:flex;align-items:flex-start;gap:8px;background:var(--bg);border:.5px solid var(--bd);border-radius:var(--r);padding:7px 10px}
@@ -217,6 +227,7 @@ h1{font-size:22px;font-weight:700;margin-bottom:4px}
   <button class="tab active" onclick="switchTab('roadmap')">📚 Roadmap</button>
   <button class="tab" onclick="switchTab('checklist')">✅ Mastery</button>
   <button class="tab" onclick="switchTab('projects')">🔨 Blueprints</button>
+  <button class="tab" onclick="switchTab('resources')">📖 Resources</button>
   <button class="tab" onclick="switchTab('map')">🗺 Phase→Project</button>
   <button class="tab" onclick="switchTab('studyplan')">📅 Study Plans</button>
   <button class="tab" onclick="switchTab('careers')">💼 Careers</button>
@@ -256,6 +267,16 @@ h1{font-size:22px;font-weight:700;margin-bottom:4px}
     <button class="chip" onclick="setPF('ready',this)">🟢 Ready now</button>
   </div>
   <div class="projgrid" id="projGrid"></div>
+</div>
+<div id="tab-resources" style="display:none">
+  <p class="sec-title">Resources</p>
+  <p class="sec-sub">Every free course, book, and reference across all 16 phases, in one place — no need to open each phase to find them.</p>
+  <div class="chips" id="resChips">
+    <button class="chip active" onclick="setResF('all',this)">All Phases</button>
+    <button class="chip" onclick="setResF('free',this)">Free only</button>
+    <button class="chip" onclick="setResF('books',this)">Books</button>
+  </div>
+  <div id="resourceList"></div>
 </div>
 <div id="tab-map" style="display:none">
   <p class="sec-title">Phase → Project Map</p>
@@ -674,20 +695,63 @@ const PHASES=[
    {
     "type": "free",
     "items": [
-     "3Blue1Brown: Essence of Linear Algebra & Essence of Calculus (YouTube)",
-     "MIT OCW 18.06 Linear Algebra (Gilbert Strang)",
-     "MIT OCW 18.01/18.02 Single & Multivariable Calculus",
-     "StatQuest with Josh Starmer (YouTube) — full probability/stats playlist",
-     "MIT OCW Signals and Systems (6.003)",
-     "freeCodeCamp: Data Structures and Algorithms"
+     {
+      "name": "3Blue1Brown: Essence of Linear Algebra & Essence of Calculus (YouTube)",
+      "url": "https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab"
+     },
+     {
+      "name": "MIT OCW 18.06 Linear Algebra (Gilbert Strang)",
+      "url": "https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/"
+     },
+     {
+      "name": "MIT OCW 18.01/18.02 Single & Multivariable Calculus",
+      "url": "https://ocw.mit.edu/courses/18-01-single-variable-calculus-fall-2006/"
+     },
+     {
+      "name": "StatQuest with Josh Starmer (YouTube) — full probability/stats playlist",
+      "url": "https://www.youtube.com/@statquest/playlists"
+     },
+     {
+      "name": "MIT OCW Signals and Systems (6.003)",
+      "url": "https://ocw.mit.edu/courses/6-003-signals-and-systems-fall-2011/"
+     },
+     {
+      "name": "freeCodeCamp: Data Structures and Algorithms",
+      "url": "https://www.freecodecamp.org/learn/data-structures-and-algorithms/"
+     },
+     {
+      "name": "Convex Optimization — Boyd & Vandenberghe (free full PDF from Stanford)",
+      "url": "https://web.stanford.edu/~boyd/cvxbook/"
+     },
+     {
+      "name": "Information Theory, Inference, and Learning Algorithms — David MacKay (free full PDF)",
+      "url": "https://www.inference.org.uk/mackay/itila/"
+     },
+     {
+      "name": "MIT OCW 18.335: Introduction to Numerical Methods",
+      "url": "https://ocw.mit.edu/courses/18-335j-introduction-to-numerical-methods-spring-2019/"
+     }
     ]
    },
    {
     "type": "books",
     "items": [
-     "Mathematics for Machine Learning — Deisenroth, Faisal, Ong (free PDF)",
-     "Signals and Systems — Oppenheim & Willsky",
-     "Introduction to Probability — Bertsekas & Tsitsiklis"
+     {
+      "name": "Mathematics for Machine Learning — Deisenroth, Faisal, Ong (free PDF)",
+      "url": "https://mml-book.github.io/"
+     },
+     {
+      "name": "Signals and Systems — Oppenheim & Willsky",
+      "url": "https://www.pearson.com/en-us/subject-catalog/p/signals-and-systems/P200000003255"
+     },
+     {
+      "name": "Introduction to Probability — Bertsekas & Tsitsiklis",
+      "url": "https://www.athenasc.com/probbook.html"
+     },
+     {
+      "name": "Elements of Information Theory — Cover & Thomas (the standard reference; not free, worth owning if you take information theory further)",
+      "url": "https://www.wiley.com/en-us/Elements+of+Information+Theory%2C+2nd+Edition-p-9780471241959"
+     }
     ]
    }
   ],
@@ -869,17 +933,51 @@ const PHASES=[
    {
     "type": "free",
     "items": [
-     "Operating Systems: Three Easy Pieces (free online textbook)",
-     "Computer Systems: A Programmer's Perspective — free course materials (CMU 15-213)",
-     "The Linux Command Line — William Shotts (free PDF)",
-     "Beej's Guide to Network Programming (free)"
+     {
+      "name": "Operating Systems: Three Easy Pieces (free online textbook)",
+      "url": "https://pages.cs.wisc.edu/~remzi/OSTEP/"
+     },
+     {
+      "name": "Computer Systems: A Programmer's Perspective — free course materials (CMU 15-213)",
+      "url": "https://www.cs.cmu.edu/~213/"
+     },
+     {
+      "name": "The Linux Command Line — William Shotts (free PDF)",
+      "url": "https://linuxcommand.org/tlcl.php"
+     },
+     {
+      "name": "Beej's Guide to Network Programming (free)",
+      "url": "https://beej.us/guide/bgnet/"
+     },
+     {
+      "name": "learncpp.com — free, comprehensive modern C++ tutorial site",
+      "url": "https://www.learncpp.com/"
+     },
+     {
+      "name": "CMake official documentation and tutorial",
+      "url": "https://cmake.org/cmake/help/latest/guide/tutorial/index.html"
+     }
     ]
    },
    {
     "type": "books",
     "items": [
-     "Operating System Concepts — Silberschatz, Galvin, Gagne",
-     "Computer Organization and Design — Patterson & Hennessy"
+     {
+      "name": "Operating System Concepts — Silberschatz, Galvin, Gagne",
+      "url": "https://www.os-book.com/"
+     },
+     {
+      "name": "Computer Organization and Design — Patterson & Hennessy",
+      "url": "https://www.elsevier.com/books/computer-organization-and-design-mips-edition/patterson/978-0-12-407726-3"
+     },
+     {
+      "name": "Effective Modern C++ — Scott Meyers (the standard reference for RAII/move semantics/templates; not free, but worth owning)",
+      "url": "https://www.oreilly.com/library/view/effective-modern-c/9781491908419/"
+     },
+     {
+      "name": "The C++ Programming Language — Bjarne Stroustrup (comprehensive reference, not free)",
+      "url": "https://www.stroustrup.com/4th.html"
+     }
     ]
    }
   ],
@@ -1000,17 +1098,35 @@ const PHASES=[
    {
     "type": "free",
     "items": [
-     "pytest official documentation",
-     "Refactoring.Guru — design patterns explained with examples",
-     "Google Engineering Practices documentation (code review guide)",
-     "Real Python: Test-Driven Development tutorials"
+     {
+      "name": "pytest official documentation",
+      "url": "https://docs.pytest.org/"
+     },
+     {
+      "name": "Refactoring.Guru — design patterns explained with examples",
+      "url": "https://refactoring.guru/design-patterns"
+     },
+     {
+      "name": "Google Engineering Practices documentation (code review guide)",
+      "url": "https://google.github.io/eng-practices/"
+     },
+     {
+      "name": "Real Python: Test-Driven Development tutorials",
+      "url": "https://realpython.com/tutorials/testing/"
+     }
     ]
    },
    {
     "type": "books",
     "items": [
-     "Clean Code — Robert C. Martin",
-     "Design Patterns: Elements of Reusable Object-Oriented Software — Gang of Four (reference)"
+     {
+      "name": "Clean Code — Robert C. Martin",
+      "url": "https://www.pearson.com/en-us/subject-catalog/p/clean-code-a-handbook-of-agile-software-craftsmanship/P200000009honda"
+     },
+     {
+      "name": "Design Patterns: Elements of Reusable Object-Oriented Software — Gang of Four (reference)",
+      "url": "https://www.oreilly.com/library/view/design-patterns-elements/0201633612/"
+     }
     ]
    }
   ],
@@ -1270,20 +1386,59 @@ const PHASES=[
    {
     "type": "free",
     "items": [
-     "Arduino official documentation & language reference",
-     "Espressif ESP32 Technical Reference Manual",
-     "Ben Eater: circuits from scratch (YouTube series)",
-     "All About Circuits — free online textbook",
-     "STM32 HAL documentation & Nucleo tutorials",
-     "KiCad official documentation & getting-started guide"
+     {
+      "name": "Arduino official documentation & language reference",
+      "url": "https://docs.arduino.cc/"
+     },
+     {
+      "name": "Espressif ESP32 Technical Reference Manual",
+      "url": "https://www.espressif.com/en/support/documents/technical-documents"
+     },
+     {
+      "name": "Ben Eater: circuits from scratch (YouTube series)",
+      "url": "https://www.youtube.com/@BenEater"
+     },
+     {
+      "name": "All About Circuits — free online textbook",
+      "url": "https://www.allaboutcircuits.com/textbook/"
+     },
+     {
+      "name": "STM32 HAL documentation & Nucleo tutorials",
+      "url": "https://www.st.com/en/development-tools/stm32cubemx.html"
+     },
+     {
+      "name": "KiCad official documentation & getting-started guide",
+      "url": "https://docs.kicad.org/"
+     },
+     {
+      "name": "FreeRTOS official documentation and tutorials",
+      "url": "https://www.freertos.org/Documentation/RTOS_book.html"
+     },
+     {
+      "name": "Mastering the FreeRTOS Real Time Kernel — official free PDF guide",
+      "url": "https://www.freertos.org/Documentation/02-Kernel/07-Books-and-manual/01-RTOS_book"
+     },
+     {
+      "name": "CSS Electronics: CAN Bus Explained — a free, practical introduction",
+      "url": "https://www.csselectronics.com/pages/can-bus-simple-intro-tutorial"
+     }
     ]
    },
    {
     "type": "books",
     "items": [
-     "Practical Electronics for Inventors — Scherz & Monk",
-     "The Art of Electronics — Horowitz & Hill (reference)",
-     "Making Embedded Systems — Elecia White"
+     {
+      "name": "Practical Electronics for Inventors — Scherz & Monk",
+      "url": "https://www.mhprofessional.com/practical-electronics-for-inventors-fifth-edition-9781260453305-usa"
+     },
+     {
+      "name": "The Art of Electronics — Horowitz & Hill (reference)",
+      "url": "https://artofelectronics.net/"
+     },
+     {
+      "name": "Making Embedded Systems — Elecia White",
+      "url": "https://www.oreilly.com/library/view/making-embedded-systems/9781449302835/"
+     }
     ]
    }
   ],
@@ -1455,17 +1610,35 @@ const PHASES=[
    {
     "type": "free",
     "items": [
-     "SolidWorks official tutorials & MySolidWorks training",
-     "GrabCAD community models and design breakdowns",
-     "EngineeringToolbox.com — materials and mechanism reference",
-     "GD&T Basics — free online GD&T course"
+     {
+      "name": "SolidWorks official tutorials & MySolidWorks training",
+      "url": "https://www.solidworks.com/support/online-tutorials"
+     },
+     {
+      "name": "GrabCAD community models and design breakdowns",
+      "url": "https://grabcad.com/library"
+     },
+     {
+      "name": "EngineeringToolbox.com — materials and mechanism reference",
+      "url": "https://www.engineeringtoolbox.com/"
+     },
+     {
+      "name": "GD&T Basics — free online GD&T course",
+      "url": "https://www.gdandtbasics.com/"
+     }
     ]
    },
    {
     "type": "books",
     "items": [
-     "The Mechanical Design Process — Ullman",
-     "Shigley's Mechanical Engineering Design (reference)"
+     {
+      "name": "The Mechanical Design Process — Ullman",
+      "url": "https://www.mheducation.com/highered/product/mechanical-design-process-ullman/M9781259825018.html"
+     },
+     {
+      "name": "Shigley's Mechanical Engineering Design (reference)",
+      "url": "https://www.mheducation.com/highered/product/shigley-s-mechanical-engineering-design-budynas-nisbett/M9781259409445.html"
+     }
     ]
    }
   ],
@@ -1693,18 +1866,39 @@ const PHASES=[
    {
     "type": "free",
     "items": [
-     "StatQuest: Random Forests, Gradient Boosting, SVM playlists",
-     "Kaggle Learn: Intro to ML, Intermediate ML, Feature Engineering",
-     "Google's Machine Learning Crash Course",
-     "Andrew Ng's Machine Learning Specialisation (Coursera, audit free)"
+     {
+      "name": "StatQuest: Random Forests, Gradient Boosting, SVM playlists",
+      "url": "https://www.youtube.com/@statquest/playlists"
+     },
+     {
+      "name": "Kaggle Learn: Intro to ML, Intermediate ML, Feature Engineering",
+      "url": "https://www.kaggle.com/learn"
+     },
+     {
+      "name": "Google's Machine Learning Crash Course",
+      "url": "https://developers.google.com/machine-learning/crash-course"
+     },
+     {
+      "name": "Andrew Ng's Machine Learning Specialisation (Coursera, audit free)",
+      "url": "https://www.coursera.org/specializations/machine-learning-introduction"
+     }
     ]
    },
    {
     "type": "books",
     "items": [
-     "The Elements of Statistical Learning — Hastie, Tibshirani, Friedman (free PDF)",
-     "An Introduction to Statistical Learning — James et al. (free PDF)",
-     "Forecasting: Principles and Practice — Hyndman & Athanasopoulos (free online)"
+     {
+      "name": "The Elements of Statistical Learning — Hastie, Tibshirani, Friedman (free PDF)",
+      "url": "https://hastie.su.domains/ElemStatLearn/"
+     },
+     {
+      "name": "An Introduction to Statistical Learning — James et al. (free PDF)",
+      "url": "https://www.statlearning.com/"
+     },
+     {
+      "name": "Forecasting: Principles and Practice — Hyndman & Athanasopoulos (free online)",
+      "url": "https://otexts.com/fpp3/"
+     }
     ]
    }
   ],
@@ -1985,17 +2179,51 @@ const PHASES=[
    {
     "type": "free",
     "items": [
-     "ROS2 official documentation & tutorials (Foxy/Humble)",
-     "Modern Robotics — Lynch & Park (free textbook + full video course)",
-     "Probabilistic Robotics — Thrun, Burgard, Fox (reference chapters free online)",
-     "Cyrill Stachniss: SLAM course (YouTube, free)"
+     {
+      "name": "ROS2 official documentation & tutorials (Foxy/Humble)",
+      "url": "https://docs.ros.org/"
+     },
+     {
+      "name": "Modern Robotics — Lynch & Park (free textbook + full video course; also your primary source for the SO(3)/SE(3) Lie group material — it uses this formulation throughout, not just Euler angles)",
+      "url": "https://modernrobotics.northwestern.edu/"
+     },
+     {
+      "name": "Probabilistic Robotics — Thrun, Burgard, Fox (reference chapters free online)",
+      "url": "https://docs.ufpr.br/~danielsantos/ProbabilisticRobotics.pdf"
+     },
+     {
+      "name": "Cyrill Stachniss: SLAM course (YouTube, free)",
+      "url": "https://www.youtube.com/@CyrillStachniss"
+     },
+     {
+      "name": "MIT OCW 6.006: Introduction to Algorithms (free — covers the graph theory/graph search fundamentals this phase assumes)",
+      "url": "https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/"
+     },
+     {
+      "name": "Articulated Robotics (YouTube) — practical ROS2 engineering: testing, Docker, and real package structure",
+      "url": "https://www.youtube.com/@ArticulatedRobotics"
+     },
+     {
+      "name": "ROS2 official documentation: Testing your ROS2 code",
+      "url": "https://docs.ros.org/en/humble/Tutorials/Intermediate/Testing/Testing-Main.html"
+     }
     ]
    },
    {
     "type": "books",
     "items": [
-     "Introduction to Autonomous Robots — Correll, Hayes, Egerstedt (free PDF)",
-     "Robotics, Vision and Control — Peter Corke"
+     {
+      "name": "Introduction to Autonomous Robots — Correll, Hayes, Egerstedt (free PDF)",
+      "url": "https://www.cs.colorado.edu/~nichola/pdf/IntroductionToAutonomousRobots.pdf"
+     },
+     {
+      "name": "Robotics, Vision and Control — Peter Corke",
+      "url": "https://petercorke.com/rvc/home/"
+     },
+     {
+      "name": "Introduction to Algorithms — Cormen, Leiserson, Rivest, Stein (CLRS; the standard graph algorithms reference, not free)",
+      "url": "https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/"
+     }
     ]
    }
   ],
@@ -2202,18 +2430,39 @@ const PHASES=[
    {
     "type": "free",
     "items": [
-     "3Blue1Brown: Neural Networks series (YouTube)",
-     "Neural Networks and Deep Learning — Michael Nielsen (free online book)",
-     "PyTorch official tutorials",
-     "fast.ai Practical Deep Learning for Coders",
-     "CS231n: Convolutional Neural Networks for Visual Recognition (Stanford, free lecture notes & videos)"
+     {
+      "name": "3Blue1Brown: Neural Networks series (YouTube)",
+      "url": "https://www.youtube.com/playlist?list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi"
+     },
+     {
+      "name": "Neural Networks and Deep Learning — Michael Nielsen (free online book)",
+      "url": "http://neuralnetworksanddeeplearning.com/"
+     },
+     {
+      "name": "PyTorch official tutorials",
+      "url": "https://pytorch.org/tutorials/"
+     },
+     {
+      "name": "fast.ai Practical Deep Learning for Coders",
+      "url": "https://course.fast.ai/"
+     },
+     {
+      "name": "CS231n: Convolutional Neural Networks for Visual Recognition (Stanford, free lecture notes & videos)",
+      "url": "https://cs231n.stanford.edu/"
+     }
     ]
    },
    {
     "type": "books",
     "items": [
-     "Deep Learning — Goodfellow, Bengio, Courville (free online)",
-     "Dive into Deep Learning — Zhang et al. (free interactive book)"
+     {
+      "name": "Deep Learning — Goodfellow, Bengio, Courville (free online)",
+      "url": "https://www.deeplearningbook.org/"
+     },
+     {
+      "name": "Dive into Deep Learning — Zhang et al. (free interactive book)",
+      "url": "https://d2l.ai/"
+     }
     ]
    }
   ],
@@ -2376,18 +2625,39 @@ const PHASES=[
    {
     "type": "free",
     "items": [
-     "OpenCV official documentation & tutorials",
-     "CS231n Stanford lecture notes (vision sections)",
-     "Ultralytics YOLOv8 documentation",
-     "Roboflow Universe — public annotated agricultural datasets",
-     "First Principles of Computer Vision (Columbia, YouTube playlist)"
+     {
+      "name": "OpenCV official documentation & tutorials",
+      "url": "https://docs.opencv.org/"
+     },
+     {
+      "name": "CS231n Stanford lecture notes (vision sections)",
+      "url": "https://cs231n.github.io/"
+     },
+     {
+      "name": "Ultralytics YOLOv8 documentation",
+      "url": "https://docs.ultralytics.com/"
+     },
+     {
+      "name": "Roboflow Universe — public annotated agricultural datasets",
+      "url": "https://universe.roboflow.com/"
+     },
+     {
+      "name": "First Principles of Computer Vision (Columbia, YouTube playlist)",
+      "url": "https://www.youtube.com/@firstprinciplesofcomputerv3258"
+     }
     ]
    },
    {
     "type": "books",
     "items": [
-     "Multiple View Geometry in Computer Vision — Hartley & Zisserman (reference)",
-     "Computer Vision: Algorithms and Applications — Szeliski (free PDF)"
+     {
+      "name": "Multiple View Geometry in Computer Vision — Hartley & Zisserman (reference)",
+      "url": "https://www.robots.ox.ac.uk/~vgg/hzbook/"
+     },
+     {
+      "name": "Computer Vision: Algorithms and Applications — Szeliski (free PDF)",
+      "url": "https://szeliski.org/Book/"
+     }
     ]
    }
   ],
@@ -2534,16 +2804,31 @@ const PHASES=[
    {
     "type": "free",
     "items": [
-     "ArduPilot official documentation",
-     "PX4 developer guide",
-     "QGroundControl user guide",
-     "MIT 16.30/16.31 Feedback Control Systems (OCW, relevant to flight stabilisation)"
+     {
+      "name": "ArduPilot official documentation",
+      "url": "https://ardupilot.org/ardupilot/"
+     },
+     {
+      "name": "PX4 developer guide",
+      "url": "https://docs.px4.io/main/en/"
+     },
+     {
+      "name": "QGroundControl user guide",
+      "url": "https://docs.qgroundcontrol.com/"
+     },
+     {
+      "name": "MIT 16.30/16.31 Feedback Control Systems (OCW, relevant to flight stabilisation)",
+      "url": "https://ocw.mit.edu/courses/16-30-feedback-control-systems-fall-2010/"
+     }
     ]
    },
    {
     "type": "certs",
     "items": [
-     "Local civil aviation drone operator certification (check your country's regulator, e.g. NCAA in Nigeria)"
+     {
+      "name": "Local civil aviation drone operator certification (check your country's regulator, e.g. NCAA in Nigeria)",
+      "url": null
+     }
     ]
    }
   ],
@@ -2636,10 +2921,22 @@ const PHASES=[
    {
     "type": "free",
     "items": [
-     "Docker official documentation & Get Started guide",
-     "MLflow official documentation",
-     "GitHub Actions documentation",
-     "Made With ML — free MLOps course"
+     {
+      "name": "Docker official documentation & Get Started guide",
+      "url": "https://docs.docker.com/get-started/"
+     },
+     {
+      "name": "MLflow official documentation",
+      "url": "https://mlflow.org/docs/latest/index.html"
+     },
+     {
+      "name": "GitHub Actions documentation",
+      "url": "https://docs.github.com/en/actions"
+     },
+     {
+      "name": "Made With ML — free MLOps course",
+      "url": "https://madewithml.com/"
+     }
     ]
    }
   ],
@@ -2793,10 +3090,22 @@ const PHASES=[
    {
     "type": "free",
     "items": [
-     "NVIDIA Jetson developer documentation & Jetson Inference examples",
-     "TensorFlow Lite for Microcontrollers guide",
-     "ONNX Runtime official documentation",
-     "Edge Impulse documentation (TinyML workflow)"
+     {
+      "name": "NVIDIA Jetson developer documentation & Jetson Inference examples",
+      "url": "https://developer.nvidia.com/embedded/learn/get-started-jetson-nano-devkit"
+     },
+     {
+      "name": "TensorFlow Lite for Microcontrollers guide",
+      "url": "https://www.tensorflow.org/lite/microcontrollers"
+     },
+     {
+      "name": "ONNX Runtime official documentation",
+      "url": "https://onnxruntime.ai/docs/"
+     },
+     {
+      "name": "Edge Impulse documentation (TinyML workflow)",
+      "url": "https://docs.edgeimpulse.com/"
+     }
     ]
    }
   ],
@@ -2969,20 +3278,55 @@ const PHASES=[
    {
     "type": "free",
     "items": [
-     "MIT OCW 6.302/2.004 Feedback Control Systems",
-     "Brian Douglas: Control Systems Lectures — LQR and MPC playlists (YouTube)",
-     "Steve Brunton: Control Bootcamp — LQR, Kalman filtering, MPC (YouTube, free)",
-     "Reinforcement Learning: An Introduction — Sutton & Barto (free PDF)",
-     "OpenAI Gym / Gymnasium documentation",
-     "do-mpc documentation (free Python MPC toolbox)"
+     {
+      "name": "MIT OCW 6.302/2.004 Feedback Control Systems",
+      "url": "https://ocw.mit.edu/courses/2-004-systems-dynamics-and-control-ii-mechanical-engineering-sciences-ii-fall-2007/"
+     },
+     {
+      "name": "Brian Douglas: Control Systems Lectures — LQR and MPC playlists (YouTube)",
+      "url": "https://www.youtube.com/@ControlLectures"
+     },
+     {
+      "name": "Steve Brunton: Control Bootcamp — LQR, Kalman filtering, MPC (YouTube, free)",
+      "url": "https://www.youtube.com/playlist?list=PLMrJAkhIeNNR20Mz-VpzgfQs5zrYi085m"
+     },
+     {
+      "name": "Reinforcement Learning: An Introduction — Sutton & Barto (free PDF)",
+      "url": "http://incompleteideas.net/book/the-book-2nd.html"
+     },
+     {
+      "name": "OpenAI Gym / Gymnasium documentation",
+      "url": "https://gymnasium.farama.org/"
+     },
+     {
+      "name": "do-mpc documentation (free Python MPC toolbox)",
+      "url": "https://www.do-mpc.com/en/latest/"
+     },
+     {
+      "name": "Algorithms for Decision Making — Kochenderfer, Wheeler, Wray (Stanford; free full text at algorithmsbook.com — covers MDPs and POMDPs directly)",
+      "url": "https://algorithmsbook.com/"
+     },
+     {
+      "name": "POMDPs.jl documentation (Julia POMDP library with strong learning-oriented docs and examples)",
+      "url": "https://juliapomdp.github.io/POMDPs.jl/latest/"
+     }
     ]
    },
    {
     "type": "books",
     "items": [
-     "Feedback Control of Dynamic Systems — Franklin, Powell, Emami-Naeini",
-     "Modern Control Engineering — Ogata",
-     "Predictive Control for Linear and Hybrid Systems — Borrelli, Bemporad, Morari (free PDF)"
+     {
+      "name": "Feedback Control of Dynamic Systems — Franklin, Powell, Emami-Naeini",
+      "url": "https://www.pearson.com/en-us/subject-catalog/p/feedback-control-of-dynamic-systems/P200000003229"
+     },
+     {
+      "name": "Modern Control Engineering — Ogata",
+      "url": "https://www.pearson.com/en-us/subject-catalog/p/modern-control-engineering/P200000003226"
+     },
+     {
+      "name": "Predictive Control for Linear and Hybrid Systems — Borrelli, Bemporad, Morari (free PDF)",
+      "url": "https://www.mpc.berkeley.edu/mpc-course-material"
+     }
     ]
    }
   ],
@@ -3066,9 +3410,18 @@ const PHASES=[
    {
     "type": "free",
     "items": [
-     "Anthropic prompt engineering documentation",
-     "HuggingFace documentation for CLIP/BLIP/LLaVA",
-     "3Blue1Brown: Attention in transformers (YouTube)"
+     {
+      "name": "Anthropic prompt engineering documentation",
+      "url": "https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/overview"
+     },
+     {
+      "name": "HuggingFace documentation for CLIP/BLIP/LLaVA",
+      "url": "https://huggingface.co/docs/transformers/index"
+     },
+     {
+      "name": "3Blue1Brown: Attention in transformers (YouTube)",
+      "url": "https://www.youtube.com/watch?v=eMlx5fFNoYc"
+     }
     ]
    }
   ],
@@ -3152,9 +3505,18 @@ const PHASES=[
    {
     "type": "free",
     "items": [
-     "The Things Network (LoRaWAN) documentation",
-     "FAO Irrigation and Drainage technical papers (free PDFs)",
-     "FAO precision agriculture technical guides"
+     {
+      "name": "The Things Network (LoRaWAN) documentation",
+      "url": "https://www.thethingsnetwork.org/docs/"
+     },
+     {
+      "name": "FAO Irrigation and Drainage technical papers (free PDFs)",
+      "url": "https://www.fao.org/land-water/water/water-management/irrigation-and-drainage-papers/en/"
+     },
+     {
+      "name": "FAO precision agriculture technical guides",
+      "url": "https://www.fao.org/digital-agriculture/en/"
+     }
     ]
    }
   ],
@@ -3288,9 +3650,39 @@ const PHASES=[
    {
     "type": "free",
     "items": [
-     "arXiv (robotics.RO, cs.CV, cs.RO categories)",
-     "GitHub Docs: writing a great README",
-     "Papers With Code — for finding reproducible baselines"
+     {
+      "name": "arXiv (robotics.RO, cs.CV, cs.RO categories)",
+      "url": "https://arxiv.org/list/cs.RO/recent"
+     },
+     {
+      "name": "GitHub Docs: writing a great README",
+      "url": "https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-readmes"
+     },
+     {
+      "name": "Papers With Code — for finding reproducible baselines",
+      "url": "https://paperswithcode.com/"
+     },
+     {
+      "name": "Ethics for Engineers: Artificial Intelligence — MIT OpenCourseWare (Course 10.01, free syllabus and materials)",
+      "url": "https://ocw.mit.edu/courses/10-01-ethics-for-engineers-artificial-intelligence-spring-2020/"
+     },
+     {
+      "name": "Y Combinator's Startup School (free video library — idea validation and pitching sections are the relevant part here, not the fundraising mechanics)",
+      "url": "https://www.startupschool.org/"
+     },
+     {
+      "name": "ISO 10218 and IEC 61508 — the official standards documents are paid; free overview articles and summaries exist from engineering standards bodies and are sufficient for awareness-level understanding at this stage",
+      "url": "https://www.iso.org/standard/73933.html"
+     }
+    ]
+   },
+   {
+    "type": "books",
+    "items": [
+     {
+      "name": "The Mom Test — Rob Fitzpatrick (short, inexpensive, the best practical guide to validating whether anyone would actually pay for what you're building, without asking leading questions)",
+      "url": "http://momtestbook.com/"
+     }
     ]
    }
   ],
@@ -6511,7 +6903,7 @@ function renderPhases(){
     ph.resources.forEach(r=>{
       const icons={free:'📖',books:'📚',papers:'📄',certs:'🏆'};
       const labels={free:'Free Resources',books:'Books',papers:'Papers',certs:'Certifications'};
-      resHTML+=`<div class="rb"><h4>${icons[r.type]||'🔗'} ${labels[r.type]||'Resources'}</h4>${r.items.map(i=>`<div class="ri">${i}</div>`).join('')}</div>`;
+      resHTML+=`<div class="rb"><h4>${icons[r.type]||'🔗'} ${labels[r.type]||'Resources'}</h4>${r.items.map(i=>i.url?`<div class="ri"><a href="${i.url}" target="_blank" rel="noopener">${i.name}</a></div>`:`<div class="ri">${i.name}</div>`).join('')}</div>`;
     });
 
     card.innerHTML=`
@@ -6642,6 +7034,33 @@ function renderProjBody(p){
 function escHtml(t){ return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
 // ===== RENDER PHASE→PROJECT MAP =====
+let resFilter='all';
+function setResF(f,btn){
+  resFilter=f;
+  document.querySelectorAll('#resChips .chip').forEach(c=>c.classList.remove('active'));
+  btn.classList.add('active');
+  renderResources();
+}
+
+function renderResources(){
+  const list=document.getElementById('resourceList');
+  list.innerHTML=PHASES.map(ph=>{
+    let types=ph.resources;
+    if(resFilter==='free') types=types.filter(t=>t.type==='free');
+    if(resFilter==='books') types=types.filter(t=>t.type==='books');
+    if(types.length===0) return '';
+    const typeBlocks=types.map(t=>{
+      const label=t.type==='free'?'🆓 Free':t.type==='books'?'📕 Books':t.type==='certs'?'🎓 Certifications':t.type;
+      const itemsHTML=t.items.map(item=>item.url?`<div class="resitem"><a href="${item.url}" target="_blank" rel="noopener">${item.name}</a></div>`:`<div class="resitem">${item.name}</div>`).join('');
+      return `<div class="restype"><div class="restypelabel">${label}</div>${itemsHTML}</div>`;
+    }).join('');
+    return `<div class="resphase">
+      <div class="resphasehead" style="background:${ph.bg};color:${ph.fg};border-left:4px solid ${ph.color}">${ph.name}</div>
+      <div class="resphasebody">${typeBlocks}</div>
+    </div>`;
+  }).join('');
+}
+
 function renderMap(){
   const grid=document.getElementById('mapGrid');
   grid.innerHTML=PHASE_MAP.map(pm=>{
@@ -6724,14 +7143,15 @@ function setPF(f,btn){
 
 // ===== TABS =====
 function switchTab(name){
-  ['roadmap','checklist','projects','map','studyplan','careers'].forEach(t=>{
+  ['roadmap','checklist','projects','resources','map','studyplan','careers'].forEach(t=>{
     document.getElementById('tab-'+t).style.display=t===name?'block':'none';
   });
   document.querySelectorAll('#mainTabs .tab').forEach((btn,i)=>{
-    btn.classList.toggle('active',['roadmap','checklist','projects','map','studyplan','careers'][i]===name);
+    btn.classList.toggle('active',['roadmap','checklist','projects','resources','map','studyplan','careers'][i]===name);
   });
   if(name==='checklist') renderChecklist();
   if(name==='projects') renderProjGrid();
+  if(name==='resources') renderResources();
   if(name==='map') renderMap();
 }
 
